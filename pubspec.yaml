@@ -1,0 +1,28 @@
+name: monorepo
+version: 0.1.0
+description: >
+  A tool to simplify development in a dart multi-package repository.
+authors:
+  - Artur Stepniewski <artur@meniga.com>
+  - Marcin Stepnowski <marcin.s@meniga.com>
+homepage: https://github.com/meniga/moronepo
+
+environment:
+  sdk: ">=2.0.0 <3.0.0"
+
+executables:
+  monorepo:
+
+dependencies:
+  args: ^1.4.0
+  glob: ^1.1.0
+  json_annotation: ^2.0.0
+  logging: ^0.11.0
+  pubspec_parse: ^0.1.5
+
+dev_dependencies:
+  build_runner: ^1.0.0
+  json_serializable: ^2.0.2
+  pedantic: ^1.8.0+1
+  test: ^1.5.3
+  test_coverage: ^0.2.3
