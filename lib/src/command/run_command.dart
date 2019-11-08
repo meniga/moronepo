@@ -32,7 +32,8 @@ class RunCommand extends Command<Null> {
     if (isProjectSpecified) {
       projects = projects.where((project) => project.name == projectName);
     }
-    final command = argResults.rest.join(" ");
+    final command = argResults.rest[0];
+    final arguments = argResults.rest.skip(1);
 
     if (projects.isEmpty) {
       if (isProjectSpecified) {
@@ -46,7 +47,7 @@ class RunCommand extends Command<Null> {
         print("Project directory \"${project.path}\"");
         await Process.start(
           command,
-          [],
+          arguments.toList(),
           workingDirectory: project.path,
           runInShell: true,
         ).then((process) async {
