@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
-import 'package:glob/glob.dart';
-import 'package:pubspec_parse/pubspec_parse.dart';
+import 'package:monorepo/src/project_finder/project.dart';
+import 'package:monorepo/src/project_finder/project_finder.dart';
 
 class PrintCommand extends Command<Null> {
   PrintCommand() {
@@ -22,17 +22,14 @@ class PrintCommand extends Command<Null> {
 
   @override
   FutureOr<Null> run() async {
-    final rootDirectory =
-        workingDirectory == null ? Directory.current : Directory(workingDirectory);
-    final projectNames = await Glob("{**/pubspec.yaml,pubspec.yaml}")
-        .list(root: rootDirectory.path)
-        .asyncMap((FileSystemEntity entity) => File(entity.path).readAsString())
-        .map((String content) => Pubspec.parse(content).name)
-        .toList();
+    final rootDirectory = workingDirectory ?? Directory.current.path;
+    final finder = ProjectFinder();
+    final projects = await finder.find(path: rootDirectory);
+    final projectNames = projects.map((Project project) => project.name).toList();
     projectNames.sort();
 
     if (projectNames.isEmpty) {
-      print("No projects found in ${rootDirectory.path}");
+      print("No projects found in ${rootDirectory}");
     } else {
       print(projectNames.join("\n"));
     }

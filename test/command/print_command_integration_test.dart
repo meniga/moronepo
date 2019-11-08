@@ -4,9 +4,6 @@ import 'package:monorepo/src/monorepo_command_runner.dart';
 import 'package:test/test.dart';
 
 void main() {
-  setUp(() async {});
-
-  tearDown(() {});
 
   group("print", () {
     test("should print project structure", () async {
