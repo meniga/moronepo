@@ -4,15 +4,15 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
 import 'package:logging/logging.dart';
-import 'package:monorepo/src/command/print_command.dart';
-import 'package:monorepo/src/command/run_command.dart';
+import 'package:moronepo/src/command/print_command.dart';
+import 'package:moronepo/src/command/run_command.dart';
 
 class MonorepoCommandRunner extends CommandRunner<Null> {
   final Logger _logger = Logger.root;
 
   MonorepoCommandRunner()
       : super(
-          "monorepo",
+          "moronepo",
           "A tool to simplify development in a dart multi-package repository.",
         ) {
     addCommand(PrintCommand());

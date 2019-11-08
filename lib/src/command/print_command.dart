@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
-import 'package:monorepo/src/project_finder/project.dart';
-import 'package:monorepo/src/project_finder/project_finder.dart';
+import 'package:moronepo/src/project_finder/project.dart';
+import 'package:moronepo/src/project_finder/project_finder.dart';
 
 class PrintCommand extends Command<Null> {
   PrintCommand() {

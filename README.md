@@ -1,4 +1,4 @@
-# monorepo
+# moronepo
 
 [![Build Status](https://travis-ci.org/meniga/moronepo.svg?branch=master)](https://travis-ci.org/meniga/moronepo)
 [![codecov](https://codecov.io/gh/meniga/moronepo/branch/master/graph/badge.svg)](https://codecov.io/gh/meniga/moronepo)
@@ -13,29 +13,29 @@ Currently, it supports:
 
 # Usage
 
-Add `monorepo` to `dev_dependencies`.
+Add `moronepo` to `dev_dependencies`.
 
 ```yaml
 dev_dependencies:
-  monorepo: any
+  moronepo: any
 ```
 
 ### Print packages 
 
 ```bash
-pub run monorepo print
+pub run moronepo print
 ```
 
 ### Run command
 
 ```bash
-pub run monorepo run [-p project_name>] <command>
+pub run moronepo run [-p project_name>] <command>
 ```
 
 For example:
 
 ```bash
-pub run monorepo run pub get
+pub run moronepo run pub get
 ```
 
 # MVP

@@ -2,9 +2,10 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:glob/glob.dart';
-import 'package:monorepo/src/project_finder/project.dart';
-import 'package:pubspec_parse/pubspec_parse.dart';
 import 'package:path/path.dart';
+import 'package:pubspec_parse/pubspec_parse.dart';
+
+import 'project.dart';
 
 class ProjectFinder {
   Future<List<Project>> find({String path}) {

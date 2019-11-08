@@ -1,4 +1,4 @@
-name: monorepo
+name: moronepo
 version: 0.1.0
 description: >
   A tool to simplify development in a dart multi-package repository.
@@ -11,7 +11,7 @@ environment:
   sdk: ">=2.0.0 <3.0.0"
 
 executables:
-  monorepo:
+  moronepo:
 
 dependencies:
   args: ^1.4.0

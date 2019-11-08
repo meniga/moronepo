@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:monorepo/src/monorepo_command_runner.dart';
+import 'package:moronepo/src/monorepo_command_runner.dart';
 import 'package:test/test.dart';
 
 void main() {
