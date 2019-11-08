@@ -5,6 +5,7 @@ import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
 import 'package:logging/logging.dart';
 import 'package:monorepo/src/command/print_command.dart';
+import 'package:monorepo/src/command/run_command.dart';
 
 class MonorepoCommandRunner extends CommandRunner<Null> {
   final Logger _logger = Logger.root;
@@ -15,6 +16,7 @@ class MonorepoCommandRunner extends CommandRunner<Null> {
           "A tool to simplify development in a dart multi-package repository.",
         ) {
     addCommand(PrintCommand());
+    addCommand(RunCommand());
   }
 
   @override
