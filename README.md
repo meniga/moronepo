@@ -1,5 +1,6 @@
 # moronepo
 
+[![pub package](https://img.shields.io/pub/v/moronepo.svg)](https://pub.dev/packages/moronepo)
 [![Build Status](https://travis-ci.org/meniga/moronepo.svg?branch=master)](https://travis-ci.org/meniga/moronepo)
 [![codecov](https://codecov.io/gh/meniga/moronepo/branch/master/graph/badge.svg)](https://codecov.io/gh/meniga/moronepo)
 
@@ -10,6 +11,8 @@ Currently, it supports:
 [Print packages](#print-packages)
 
 [Run command](#run-command)
+
+[Test command](#test-command)
 
 # Usage
 
@@ -38,20 +41,18 @@ For example:
 pub run moronepo run pub get
 ```
 
+### Test command
+
+```bash
+pub run moronepo test [-p project_name] <args_for_test>
+```
+
 # MVP
 
 - installable as a global command, e.g. `pub global activate moronepo`
 - what is a subproject (including root)? everything that has a pubspec.yaml file
 
 # Next iterations
-- flutter test --update-goldens ||
-
-class Subproject {
-  hasTestDirectory;
-  isFlutter;
-}
-
 - filter projects by relative path
 - filter projects by type and features (e.g. has tests or not)
-
 - run multiple commands per project

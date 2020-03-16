@@ -6,13 +6,9 @@ import 'package:moronepo/src/project_finder/project.dart';
 import 'package:moronepo/src/project_finder/project_finder.dart';
 
 class PrintCommand extends Command<Null> {
-  PrintCommand() {
-    argParser.addOption("working-directory", abbr: "d", help: "specifies the working directory");
-  }
+  String get workingDirectory => _fromGlobalResults("working-directory");
 
-  String get workingDirectory => _fromArgResults("working-directory");
-
-  T _fromArgResults<T>(String name) => argResults[name] as T;
+  T _fromGlobalResults<T>(String name) => globalResults[name] as T;
 
   @override
   String get description => "Prints subprojects";

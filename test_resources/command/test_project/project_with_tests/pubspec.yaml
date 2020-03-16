@@ -1,0 +1,4 @@
+name: project_with_tests
+
+dev_dependencies:
+  test:
