@@ -14,3 +14,5 @@ doc/api/
 
 **/.test_coverage.dart
 coverage/
+
+test_resources/**/*.lock

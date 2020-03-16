@@ -1,0 +1,7 @@
+name: project_with_flutter_tests
+dependencies:
+  flutter:
+    sdk: flutter
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
