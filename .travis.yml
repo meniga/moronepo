@@ -10,6 +10,7 @@ cache:
     - .dart_tool/build
 
 script:
+  - pub run moronepo -d test_resources/command/test_project_for_test run pub get
   - dartanalyzer --fatal-warnings .
   - pub run test_coverage --no-badge
 
