@@ -7,20 +7,27 @@ import 'package:logging/logging.dart';
 import 'package:moronepo/src/command/print_command.dart';
 import 'package:moronepo/src/command/run_command.dart';
 import 'package:moronepo/src/command/test_command.dart';
+import 'package:moronepo/src/command/update_sdk_command.dart';
 
 class MonorepoCommandRunner extends CommandRunner<Null> {
   final Logger _logger = Logger.root;
 
-  MonorepoCommandRunner()
+  MonorepoCommandRunner.withDefaultCommands()
+      : this([
+          PrintCommand(),
+          RunCommand(),
+          TestCommand(),
+          UpdateSdkCommand(),
+        ]);
+
+  MonorepoCommandRunner([List<Command<Null>> commands])
       : super(
           "moronepo",
           "A tool to simplify development in a dart multi-package repository.",
         ) {
     argParser.addOption("working-directory", abbr: "d", help: "specifies the working directory");
     argParser.addOption("project", abbr: "p", help: "specifies the project to run the command in");
-    addCommand(PrintCommand());
-    addCommand(RunCommand());
-    addCommand(TestCommand());
+    commands.forEach((it) => addCommand(it));
   }
 
   @override

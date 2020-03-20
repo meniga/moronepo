@@ -8,7 +8,13 @@ void main() {
     test("should notify if no projects found", () async {
       final emptyDirectory =
           "${projectDirectory.path}/test_resources/command/test_project/empty_directory";
-      expect(() => MonorepoCommandRunner().run(["-d", emptyDirectory, "run", "echo"]),
+      expect(
+          () => MonorepoCommandRunner.withDefaultCommands().run([
+                "-d",
+                emptyDirectory,
+                "run",
+                "echo",
+              ]),
           prints("No projects found in $emptyDirectory\n"));
     });
   });

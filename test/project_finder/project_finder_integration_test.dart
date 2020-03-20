@@ -47,4 +47,15 @@ void main() {
     expect(projects, hasLength(1));
     expect(projects, anyElement((Project it) => it.name == "project_with_tests"));
   });
+
+  test("should mark root project as root", () async {
+    // when
+    final projects = await projectFinder.find(
+      path: testProjectPath,
+    );
+
+    // then
+    expect(projects, hasLength(6));
+    expect(projects.where((it) => it.isRoot), hasLength(1));
+  });
 }

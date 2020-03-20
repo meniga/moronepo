@@ -1,12 +1,34 @@
-class Project {
+import 'package:equatable/equatable.dart';
+import 'package:pubspec_parse/pubspec_parse.dart';
+import 'package:quiver/check.dart';
+
+class Project extends Equatable {
   final String name;
   final String path;
   final bool isFlutter;
   final bool hasTests;
+  final bool isRoot;
+  final Pubspec pubspec;
 
-  const Project({this.name, this.path, this.isFlutter, this.hasTests});
+  Project({this.name, this.path, this.isFlutter, this.hasTests, this.isRoot, this.pubspec}) {
+    checkNotNull(name);
+    checkNotNull(path);
+    checkNotNull(isFlutter);
+    checkNotNull(hasTests);
+    checkNotNull(isRoot);
+    checkNotNull(pubspec);
+  }
 
   @override
-  String toString() =>
-      "(name: ${name}, path: ${path}, isFlutter: ${isFlutter} hasTests: ${hasTests})";
+  List<Object> get props => [
+        name,
+        path,
+        isFlutter,
+        hasTests,
+        isRoot,
+        pubspec,
+      ];
+
+  @override
+  bool get stringify => true;
 }

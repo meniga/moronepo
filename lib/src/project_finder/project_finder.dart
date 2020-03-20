@@ -22,11 +22,13 @@ class ProjectFinder {
           final content = await file.readAsString();
           final pubspec = Pubspec.parse(content);
           return Project(
-              name: pubspec.name,
-              path: dirname(file.path),
-              isFlutter: pubspec.dependencies.containsKey("flutter"),
-              hasTests:
-                  pubspec.devDependencies.keys.where((it) => _isTestDependency(it)).isNotEmpty);
+            name: pubspec.name,
+            path: dirname(file.path),
+            isFlutter: pubspec.dependencies.containsKey("flutter"),
+            hasTests: pubspec.devDependencies.keys.where((it) => _isTestDependency(it)).isNotEmpty,
+            isRoot: file.parent.path == path,
+            pubspec: pubspec,
+          );
         })
         .where((project) => _hasParameterIfExpectedTo(project.name, name))
         .where((project) => _hasParameterIfExpectedTo(project.hasTests, hasTests))
