@@ -9,7 +9,7 @@ void main() {
       final emptyDirectory =
           "${projectDirectory.path}/test_resources/command/test_project_for_test";
       expect(
-          () => MonorepoCommandRunner().run([
+          () => MonorepoCommandRunner.withDefaultCommands().run([
                 "-d",
                 emptyDirectory,
                 "test",

@@ -14,6 +14,8 @@ Currently, it supports:
 
 [Test command](#test-command)
 
+[Update SDK command](#update-sdk-command)
+
 # Usage
 
 Add `moronepo` to `dev_dependencies`.
@@ -46,6 +48,25 @@ pub run moronepo run pub get
 ```bash
 pub run moronepo test [-p project_name] <args_for_test>
 ```
+
+### Update-sdk command
+
+Specifying `environment.flutter` in `pubspec.yaml`:
+
+```yaml
+name: project
+environment:
+  flutter: ">=1.10.0 <1.11.0"
+```
+
+and then running:
+
+```bash
+pub run moronepo update-sdk [-p project_name]
+```
+
+forces an update to the Flutter SDK to the latest version within those
+constraints.
 
 # MVP
 

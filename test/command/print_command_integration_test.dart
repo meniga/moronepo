@@ -2,6 +2,7 @@ import 'package:moronepo/src/monorepo_command_runner.dart';
 import 'package:test/test.dart';
 
 import '../directories.dart';
+import '../trimmer.dart';
 
 void main() {
   final testResourcesPath = "${projectDirectory.path}/test_resources";
@@ -9,24 +10,25 @@ void main() {
   group("print", () {
     test("should print project structure", () async {
       expect(
-          () => MonorepoCommandRunner().run([
+          () => MonorepoCommandRunner.withDefaultCommands().run([
                 "-d",
                 "$testResourcesPath/command/test_project",
                 "print",
               ]),
-          prints("""project1
-project2
-project_inside_directory
-project_inside_project
-project_with_tests
-root
-"""));
+          prints(trim("""
+            project1
+            project2
+            project_inside_directory
+            project_inside_project
+            project_with_tests
+            root
+          """)));
     });
 
     test("should notify if no projects found", () async {
       final emptyDirectory = "$testResourcesPath/command/test_project/empty_directory";
       expect(
-          () => MonorepoCommandRunner().run([
+          () => MonorepoCommandRunner.withDefaultCommands().run([
                 "-d",
                 emptyDirectory,
                 "print",

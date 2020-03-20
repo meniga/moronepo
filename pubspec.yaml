@@ -15,6 +15,7 @@ executables:
 
 dependencies:
   args: ^1.4.0
+  equatable: ^1.1.1
   flutter:
     sdk: flutter
   glob: ^1.1.0
@@ -28,5 +29,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   json_serializable: ^2.0.2
+  mockito:
   pedantic: ^1.8.0+1
   test: ^1.5.3
