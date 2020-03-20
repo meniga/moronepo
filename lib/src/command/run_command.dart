@@ -1,19 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:args/command_runner.dart';
 import 'package:moronepo/src/command/command_and_arguments_formatter.dart';
+import 'package:moronepo/src/command/moronepo_command.dart';
 
 import '../project_finder/project.dart';
 import '../project_finder/project_finder.dart';
 
-class RunCommand extends Command<Null> {
-  String get workingDirectory => _fromGlobalResults("working-directory");
-
-  String get projectName => _fromGlobalResults("project");
-
-  T _fromGlobalResults<T>(String name) => globalResults[name] as T;
-
+class RunCommand extends MoronepoCommand<Null> {
   @override
   String get description => "Runs command for all subprojects or a specified project";
 
@@ -22,8 +16,9 @@ class RunCommand extends Command<Null> {
 
   @override
   FutureOr<Null> run() async {
+    final projectName = moronepoResults.projectName;
     final isProjectSpecified = projectName?.isNotEmpty ?? false;
-    final rootDirectory = workingDirectory ?? Directory.current.path;
+    final rootDirectory = moronepoResults.workingDirectory ?? Directory.current.path;
     final finder = ProjectFinder();
     Iterable<Project> projects = await finder.find(path: rootDirectory);
     if (isProjectSpecified) {
