@@ -4,15 +4,21 @@ dart:
   - stable
   - dev
 
+before_script:
+  - git clone https://github.com/flutter/flutter.git -b stable /tmp/flutter
+  - export PATH=/tmp/flutter/bin:/tmp/flutter/bin/cache/dart-sdk/bin:$PATH
+
 cache:
   directories:
     - $HOME/.pub-cache
     - .dart_tool/build
 
+install:
+  - bash .travis-pub-get.sh
+
 script:
-  - pub run moronepo -d test_resources/command/test_project_for_test run pub get
-  - dartanalyzer --fatal-warnings .
-  - pub run test_coverage --no-badge
+  - flutter analyze
+  - flutter test --coverage
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

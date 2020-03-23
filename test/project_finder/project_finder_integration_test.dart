@@ -1,12 +1,12 @@
-import 'dart:io';
-
 import 'package:moronepo/src/project_finder/project.dart';
 import 'package:moronepo/src/project_finder/project_finder.dart';
 import 'package:test/test.dart';
 
+import '../directories.dart';
+
 void main() {
   final projectFinder = ProjectFinder();
-  final testProjectPath = "${Directory.current.path}/test_resources/command/test_project";
+  final testProjectPath = "${projectDirectory.path}/test_resources/command/test_project";
 
   test("should return all projects", () async {
     // when

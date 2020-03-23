@@ -4,3 +4,6 @@ analyzer:
   strong-mode:
     implicit-casts: false
     implicit-dynamic: true
+  errors:
+    # TODO https://github.com/dart-lang/sdk/issues/35831
+    include_file_not_found: ignore
