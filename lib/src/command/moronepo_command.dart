@@ -6,7 +6,7 @@ abstract class MoronepoCommand<T> extends Command<T> {
         projectName: _fromGlobalResults("project"),
       );
 
-  T _fromGlobalResults<T>(String name) => globalResults[name] as T;
+  R _fromGlobalResults<R>(String name) => globalResults[name] as R;
 }
 
 class MoronepoResults {

@@ -1,10 +1,10 @@
-import 'dart:io';
-
 import 'package:moronepo/src/monorepo_command_runner.dart';
 import 'package:test/test.dart';
 
+import '../directories.dart';
+
 void main() {
-  final testResourcesPath = "${Directory.current.path}/test_resources";
+  final testResourcesPath = "${projectDirectory.path}/test_resources";
 
   group("print", () {
     test("should print project structure", () async {

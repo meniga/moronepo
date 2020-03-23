@@ -1,12 +1,13 @@
-import 'dart:io';
-
 import 'package:moronepo/src/monorepo_command_runner.dart';
 import 'package:test/test.dart';
+
+import '../directories.dart';
 
 void main() {
   group("test", () {
     test("should run proper test command for every project with tests", () async {
-      final emptyDirectory = "${Directory.current.path}/test_resources/command/test_project_for_test";
+      final emptyDirectory =
+          "${projectDirectory.path}/test_resources/command/test_project_for_test";
       expect(
           () => MonorepoCommandRunner().run([
                 "-d",
