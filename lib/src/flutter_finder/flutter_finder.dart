@@ -28,5 +28,5 @@ class FlutterFinder {
 
 class FlutterNotFoundException implements Exception {
   @override
-  String toString() => "Exception: Flutter executable not found";
+  String toString() => "Flutter executable not found";
 }

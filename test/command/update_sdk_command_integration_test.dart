@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:args/command_runner.dart';
 import 'package:mockito/mockito.dart';
-import 'package:moronepo/src/command/update_sdk_command.dart';
+import 'package:moronepo/src/command/update_flutter_sdk_command.dart';
 import 'package:moronepo/src/flutter_finder/flutter_finder.dart';
 import 'package:moronepo/src/monorepo_command_runner.dart';
+import 'package:moronepo/src/process_starter/process_starter.dart';
 import 'package:test/test.dart';
 
 import '../directories.dart';
@@ -13,7 +14,7 @@ import '../trimmer.dart';
 void main() {
   final testDirectory = "${projectDirectory.path}/test_resources/command/test_project_with_version";
 
-  group("update-sdk", () {
+  group("update-flutter-sdk", () {
     CommandRunner commandRunner;
     MockProcessStarter processStarter;
 
@@ -21,9 +22,21 @@ void main() {
       processStarter = MockProcessStarter();
     });
 
+    test("should notify if no projects found", () async {
+      final emptyDirectory =
+          "${projectDirectory.path}/test_resources/command/test_project/empty_directory";
+      expect(
+          () => MonorepoCommandRunner.withDefaultCommands().run([
+                "-d",
+                emptyDirectory,
+                "update-flutter-sdk",
+              ]),
+          prints("No root project found in $emptyDirectory\n"));
+    });
+
     test("should not update sdk if current version within constraints", () async {
       // given
-      final updateCommand = UpdateSdkCommand(processStarter: processStarter);
+      final updateCommand = UpdateFlutterSdkCommand(processStarter: processStarter);
       commandRunner = MonorepoCommandRunner([updateCommand]);
       when(processStarter.start("flutter", ["--version"], any))
           .thenAnswer((_) => Future.value(ProcessOutput("Flutter 1.10.1 • channel ...")));
@@ -32,7 +45,7 @@ void main() {
       await commandRunner.run([
         "-d",
         testDirectory,
-        "update-sdk",
+        "update-flutter-sdk",
       ]);
 
       // then
@@ -45,7 +58,7 @@ void main() {
       // given
       final flutterFinder = MockFlutterFinder();
       final flutterSdkPath = "/path/to/flutter";
-      final updateCommand = UpdateSdkCommand(
+      final updateCommand = UpdateFlutterSdkCommand(
         processStarter: processStarter,
         flutterFinder: flutterFinder,
       );
@@ -65,7 +78,7 @@ void main() {
       await commandRunner.run([
         "-d",
         testDirectory,
-        "update-sdk",
+        "update-flutter-sdk",
       ]);
 
       // then

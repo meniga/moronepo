@@ -1,31 +1,29 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:moronepo/src/command/moronepo_command.dart';
 import 'package:moronepo/src/flutter_finder/flutter_finder.dart';
+import 'package:moronepo/src/process_starter/process_starter.dart';
 import 'package:pub_semver/pub_semver.dart';
-import 'package:quiver/check.dart';
 
 import '../project_finder/project.dart';
 import '../project_finder/project_finder.dart';
 
-class UpdateSdkCommand extends MoronepoCommand<Null> {
+class UpdateFlutterSdkCommand extends MoronepoCommand<Null> {
   @override
   String get description =>
       "Updates Flutter SDK version to environment.flutter in root pubspec.yaml";
 
   @override
-  String get name => "update-sdk";
+  String get name => "update-flutter-sdk";
 
   final ProcessStarter _processStarter;
   final FlutterFinder _flutterFinder;
 
-  UpdateSdkCommand({
+  UpdateFlutterSdkCommand({
     ProcessStarter processStarter,
     FlutterFinder flutterFinder,
-  })
-      : this._processStarter = processStarter ?? ProcessStarter(),
+  })  : this._processStarter = processStarter ?? ProcessStarter(),
         this._flutterFinder = flutterFinder ?? FlutterFinder(Platform.environment["PATH"]);
 
   @override
@@ -38,10 +36,10 @@ class UpdateSdkCommand extends MoronepoCommand<Null> {
     if (project == null) {
       print("No root project found in $rootDirectory");
     } else {
-      final versionConstraint = project.pubspec.environment["flutter"];
+      final versionConstraint = project.flutterVersionConstraint;
       final currentVersion = await _fetchFlutterVersion(project.path);
 
-      if (versionConstraint.allows(Version.parse(currentVersion))) {
+      if (versionConstraint.allows(currentVersion)) {
         print("Flutter version ${currentVersion} within ${versionConstraint}. No need to update.");
       } else {
         await _fetchFlutterSdk();
@@ -53,9 +51,9 @@ class UpdateSdkCommand extends MoronepoCommand<Null> {
     }
   }
 
-  Future<String> _fetchFlutterVersion(String path) async {
+  Future<Version> _fetchFlutterVersion(String path) async {
     final processOutput = await _processStarter.start("flutter", ["--version"], path);
-    return processOutput.output.split(" ")[1];
+    return Version.parse(processOutput.output.split(" ")[1]);
   }
 
   Future<void> _fetchFlutterSdk() async {
@@ -87,33 +85,5 @@ class UpdateSdkCommand extends MoronepoCommand<Null> {
       ],
       path,
     );
-  }
-}
-
-class ProcessStarter {
-  Future<ProcessOutput> start(String command,
-      List<String> arguments,
-      String workingDirectory,) {
-    return Process.start(
-      command,
-      arguments,
-      workingDirectory: workingDirectory,
-      runInShell: true,
-    ).then((process) async {
-      final stdoutBroadcast = process.stdout.asBroadcastStream();
-      final output = stdoutBroadcast.transform(utf8.decoder).join();
-      await stdout.addStream(stdoutBroadcast);
-      await stderr.addStream(process.stderr);
-      final stringOutput = await output;
-      return ProcessOutput(stringOutput);
-    });
-  }
-}
-
-class ProcessOutput {
-  final String output;
-
-  ProcessOutput(this.output) {
-    checkNotNull(output);
   }
 }

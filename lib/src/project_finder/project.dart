@@ -1,34 +1,27 @@
-import 'package:equatable/equatable.dart';
-import 'package:pubspec_parse/pubspec_parse.dart';
+import 'package:meta/meta.dart';
+import 'package:pub_semver/pub_semver.dart';
 import 'package:quiver/check.dart';
 
-class Project extends Equatable {
+class Project {
   final String name;
   final String path;
   final bool isFlutter;
   final bool hasTests;
   final bool isRoot;
-  final Pubspec pubspec;
+  final VersionConstraint flutterVersionConstraint;
 
-  Project({this.name, this.path, this.isFlutter, this.hasTests, this.isRoot, this.pubspec}) {
+  Project({
+    @required this.name,
+    @required this.path,
+    @required this.isFlutter,
+    @required this.hasTests,
+    @required this.isRoot,
+    VersionConstraint flutterVersionConstraint,
+  }) : this.flutterVersionConstraint = flutterVersionConstraint ?? VersionConstraint.any {
     checkNotNull(name);
     checkNotNull(path);
     checkNotNull(isFlutter);
     checkNotNull(hasTests);
     checkNotNull(isRoot);
-    checkNotNull(pubspec);
   }
-
-  @override
-  List<Object> get props => [
-        name,
-        path,
-        isFlutter,
-        hasTests,
-        isRoot,
-        pubspec,
-      ];
-
-  @override
-  bool get stringify => true;
 }

@@ -27,7 +27,7 @@ class ProjectFinder {
             isFlutter: pubspec.dependencies.containsKey("flutter"),
             hasTests: pubspec.devDependencies.keys.where((it) => _isTestDependency(it)).isNotEmpty,
             isRoot: file.parent.path == path,
-            pubspec: pubspec,
+            flutterVersionConstraint: pubspec.environment["flutter"],
           );
         })
         .where((project) => _hasParameterIfExpectedTo(project.name, name))

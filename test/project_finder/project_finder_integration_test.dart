@@ -55,7 +55,7 @@ void main() {
     );
 
     // then
-    expect(projects, hasLength(6));
     expect(projects.where((it) => it.isRoot), hasLength(1));
+    expect(projects.where((it) => !it.isRoot), hasLength(5));
   });
 }

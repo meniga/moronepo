@@ -23,6 +23,9 @@ void main() {
     final finder = FlutterFinder(path);
 
     // expect
-    expect(() => finder.findFlutter(), throwsA(TypeMatcher<FlutterNotFoundException>()));
+    expect(
+        () => finder.findFlutter(),
+        throwsA(TypeMatcher<FlutterNotFoundException>()
+            .having((it) => it.toString(), "message", "Flutter executable not found")));
   });
 }
