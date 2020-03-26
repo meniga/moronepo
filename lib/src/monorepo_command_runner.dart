@@ -7,7 +7,7 @@ import 'package:logging/logging.dart';
 import 'package:moronepo/src/command/print_command.dart';
 import 'package:moronepo/src/command/run_command.dart';
 import 'package:moronepo/src/command/test_command.dart';
-import 'package:moronepo/src/command/update_sdk_command.dart';
+import 'package:moronepo/src/command/update_flutter_sdk_command.dart';
 
 class MonorepoCommandRunner extends CommandRunner<Null> {
   final Logger _logger = Logger.root;
@@ -17,7 +17,7 @@ class MonorepoCommandRunner extends CommandRunner<Null> {
           PrintCommand(),
           RunCommand(),
           TestCommand(),
-          UpdateSdkCommand(),
+          UpdateFlutterSdkCommand(),
         ]);
 
   MonorepoCommandRunner([List<Command<Null>> commands])

@@ -14,7 +14,7 @@ Currently, it supports:
 
 [Test command](#test-command)
 
-[Update SDK command](#update-sdk-command)
+[Update Flutter SDK command](#update-flutter-sdk-command)
 
 # Usage
 
@@ -49,7 +49,7 @@ pub run moronepo run pub get
 pub run moronepo test [-p project_name] <args_for_test>
 ```
 
-### Update-sdk command
+### Update-flutter-sdk command
 
 Specifying `environment.flutter` in `pubspec.yaml`:
 
@@ -62,7 +62,7 @@ environment:
 and then running:
 
 ```bash
-pub run moronepo update-sdk [-p project_name]
+pub run moronepo update-flutter-sdk [-p project_name]
 ```
 
 forces an update to the Flutter SDK to the latest version within those
