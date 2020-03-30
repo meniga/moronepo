@@ -19,8 +19,7 @@ class RunCommand extends MoronepoCommand<Null> {
     final projectName = moronepoResults.projectName;
     final isProjectSpecified = projectName?.isNotEmpty ?? false;
     final rootDirectory = moronepoResults.workingDirectory ?? Directory.current.path;
-    final finder = ProjectFinder();
-    Iterable<Project> projects = await finder.find(path: rootDirectory);
+    Iterable<Project> projects = await _findProjects(rootDirectory, projectName);
     if (isProjectSpecified) {
       projects = projects.where((project) => project.name == projectName);
     }
@@ -33,11 +32,14 @@ class RunCommand extends MoronepoCommand<Null> {
       } else {
         print("No projects found in $rootDirectory");
       }
-    } else {
+      return;
+    }
+
+    try {
       await Future.forEach(projects, (Project project) async {
         print("Running \"${formatCommand(command, arguments)}\" for ${project.name} project");
         print("Project directory \"${project.path}\"");
-        await Process.start(
+        final code = await Process.start(
           command,
           arguments.toList(),
           workingDirectory: project.path,
@@ -46,8 +48,34 @@ class RunCommand extends MoronepoCommand<Null> {
           await stdout.addStream(process.stdout);
           await stderr.addStream(process.stderr);
           return process;
-        });
+        }).then((process) => process.exitCode);
+
+        if (code != 0) {
+          throw CommandException(code);
+        }
       });
+    } on CommandException catch (exception) {
+      exitCode = exception.exitCode;
     }
   }
+
+  Future<List<Project>> _findProjects(String rootDirectory, String projectName) async {
+    return ProjectFinder().find(
+      path: rootDirectory,
+      dependencies: moronepoResults.dependencies,
+      hasTests: moronepoResults.hasTests,
+      isDart: moronepoResults.isDart,
+      isFlutter: moronepoResults.isFlutter,
+      name: projectName,
+    );
+  }
+}
+
+class CommandException {
+  final int exitCode;
+
+  CommandException(this.exitCode);
+
+  @override
+  String toString() => "$exitCode";
 }

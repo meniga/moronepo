@@ -9,6 +9,10 @@ class Project {
   final bool hasTests;
   final bool isRoot;
   final VersionConstraint flutterVersionConstraint;
+  final Iterable<String> dependencies;
+  final Iterable<String> devDependencies;
+
+  bool get isDart => !isFlutter;
 
   Project({
     @required this.name,
@@ -16,12 +20,19 @@ class Project {
     @required this.isFlutter,
     @required this.hasTests,
     @required this.isRoot,
+    Iterable<String> dependencies,
+    Iterable<String> devDependencies,
     VersionConstraint flutterVersionConstraint,
-  }) : this.flutterVersionConstraint = flutterVersionConstraint ?? VersionConstraint.any {
+  })  : this.flutterVersionConstraint = flutterVersionConstraint ?? VersionConstraint.any,
+        this.dependencies = dependencies ?? [],
+        this.devDependencies = devDependencies ?? [] {
     checkNotNull(name);
     checkNotNull(path);
     checkNotNull(isFlutter);
     checkNotNull(hasTests);
     checkNotNull(isRoot);
   }
+
+  @override
+  String toString() => name;
 }

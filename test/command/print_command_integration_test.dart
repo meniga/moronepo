@@ -11,7 +11,7 @@ void main() {
     test("should print project structure", () async {
       expect(
           () => MonorepoCommandRunner.withDefaultCommands().run([
-                "-d",
+                "--working-directory",
                 "$testResourcesPath/command/test_project",
                 "print",
               ]),
@@ -20,6 +20,7 @@ void main() {
             project2
             project_inside_directory
             project_inside_project
+            project_with_flutter
             project_with_tests
             root
           """)));
@@ -29,7 +30,7 @@ void main() {
       final emptyDirectory = "$testResourcesPath/command/test_project/empty_directory";
       expect(
           () => MonorepoCommandRunner.withDefaultCommands().run([
-                "-d",
+                "--working-directory",
                 emptyDirectory,
                 "print",
               ]),

@@ -6,7 +6,6 @@ import 'package:moronepo/src/flutter_finder/flutter_finder.dart';
 import 'package:moronepo/src/process_starter/process_starter.dart';
 import 'package:pub_semver/pub_semver.dart';
 
-import '../project_finder/project.dart';
 import '../project_finder/project_finder.dart';
 
 class UpdateFlutterSdkCommand extends MoronepoCommand<Null> {
@@ -29,24 +28,23 @@ class UpdateFlutterSdkCommand extends MoronepoCommand<Null> {
   @override
   FutureOr<Null> run() async {
     final rootDirectory = moronepoResults.workingDirectory ?? Directory.current.path;
-    final finder = ProjectFinder();
-    Iterable<Project> projects = await finder.find(path: rootDirectory);
-    final project = projects.firstWhere((it) => it.isRoot, orElse: () => null);
+    final projects = await ProjectFinder().find(path: rootDirectory);
+    final rootProject = projects.firstWhere((it) => it.isRoot, orElse: () => null);
 
-    if (project == null) {
+    if (rootProject == null) {
       print("No root project found in $rootDirectory");
     } else {
-      final versionConstraint = project.flutterVersionConstraint;
-      final currentVersion = await _fetchFlutterVersion(project.path);
+      final versionConstraint = rootProject.flutterVersionConstraint;
+      final currentVersion = await _fetchFlutterVersion(rootProject.path);
 
       if (versionConstraint.allows(currentVersion)) {
         print("Flutter version ${currentVersion} within ${versionConstraint}. No need to update.");
       } else {
         await _fetchFlutterSdk();
-        final availableVersions = await _fetchAvailableFlutterVersions(project.path);
+        final availableVersions = await _fetchAvailableFlutterVersions(rootProject.path);
         final forcedVersion = _determineBestVersion(versionConstraint, availableVersions);
-        print("Running flutter version ${forcedVersion} for ${project.name} project");
-        await _enforceVersion(forcedVersion, project.path);
+        print("Running flutter version ${forcedVersion} for ${rootProject.name} project");
+        await _enforceVersion(forcedVersion, rootProject.path);
       }
     }
   }

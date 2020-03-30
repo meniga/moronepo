@@ -6,7 +6,6 @@ import 'package:args/command_runner.dart';
 import 'package:logging/logging.dart';
 import 'package:moronepo/src/command/print_command.dart';
 import 'package:moronepo/src/command/run_command.dart';
-import 'package:moronepo/src/command/test_command.dart';
 import 'package:moronepo/src/command/update_flutter_sdk_command.dart';
 
 class MonorepoCommandRunner extends CommandRunner<Null> {
@@ -16,7 +15,6 @@ class MonorepoCommandRunner extends CommandRunner<Null> {
       : this([
           PrintCommand(),
           RunCommand(),
-          TestCommand(),
           UpdateFlutterSdkCommand(),
         ]);
 
@@ -25,8 +23,23 @@ class MonorepoCommandRunner extends CommandRunner<Null> {
           "moronepo",
           "A tool to simplify development in a dart multi-package repository.",
         ) {
-    argParser.addOption("working-directory", abbr: "d", help: "specifies the working directory");
+    argParser.addOption("working-directory", abbr: "w", help: "specifies the working directory");
     argParser.addOption("project", abbr: "p", help: "specifies the project to run the command in");
+    argParser.addMultiOption(
+      "filter",
+      abbr: "f",
+      help: "runs the command for projects that match filter",
+      allowed: [
+        "hasTests",
+        "isFlutter",
+        "isDart",
+      ],
+    );
+    argParser.addMultiOption(
+      "dependencies",
+      abbr: "d",
+      help: "runs the command for projects with specified dependencies",
+    );
     commands.forEach((it) => addCommand(it));
   }
 

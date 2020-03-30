@@ -1,0 +1,5 @@
+name: project_with_flutter
+
+dependencies:
+  flutter:
+    sdk: flutter

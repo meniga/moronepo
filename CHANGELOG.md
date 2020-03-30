@@ -1,7 +1,7 @@
 ## 0.1.x
 
-* Add test command
 * Add update-flutter-sdk command
+* Add `--filter` option to filter out projects
 
 ## 0.1.0
 
