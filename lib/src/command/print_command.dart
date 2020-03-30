@@ -16,7 +16,14 @@ class PrintCommand extends MoronepoCommand<Null> {
   FutureOr<Null> run() async {
     final rootDirectory = moronepoResults.workingDirectory ?? Directory.current.path;
     final finder = ProjectFinder();
-    final projects = await finder.find(path: rootDirectory);
+    final projects = await finder.find(
+      path: rootDirectory,
+      dependencies: moronepoResults.dependencies,
+      hasTests: moronepoResults.hasTests,
+      isDart: moronepoResults.isDart,
+      isFlutter: moronepoResults.isFlutter,
+      name: moronepoResults.projectName,
+    );
     final projectNames = projects.map((Project project) => project.name).toList();
     projectNames.sort();
 

@@ -15,13 +15,14 @@ void main() {
     );
 
     // then
-    expect(projects, hasLength(6));
+    expect(projects, hasLength(7));
     expect(projects, anyElement((Project it) => it.name == "project1"));
     expect(projects, anyElement((Project it) => it.name == "project_inside_project"));
     expect(projects, anyElement((Project it) => it.name == "project_inside_directory"));
     expect(projects, anyElement((Project it) => it.name == "root"));
     expect(projects, anyElement((Project it) => it.name == "project2"));
     expect(projects, anyElement((Project it) => it.name == "project_with_tests"));
+    expect(projects, anyElement((Project it) => it.name == "project_with_flutter"));
   });
 
   test("should filter by name", () async {
@@ -56,6 +57,47 @@ void main() {
 
     // then
     expect(projects.where((it) => it.isRoot), hasLength(1));
-    expect(projects.where((it) => !it.isRoot), hasLength(5));
+    expect(projects.where((it) => !it.isRoot), hasLength(6));
+  });
+
+  test("should filter pure dart projects", () async {
+    // when
+    final projects = await projectFinder.find(
+      path: testProjectPath,
+      isDart: true,
+    );
+
+    // then
+    expect(projects, hasLength(6));
+    expect(projects, anyElement((Project it) => it.name == "project1"));
+    expect(projects, anyElement((Project it) => it.name == "project_inside_project"));
+    expect(projects, anyElement((Project it) => it.name == "project_inside_directory"));
+    expect(projects, anyElement((Project it) => it.name == "root"));
+    expect(projects, anyElement((Project it) => it.name == "project_with_tests"));
+    expect(projects, anyElement((Project it) => it.name == "project2"));
+  });
+
+  test("should filter flutter projects", () async {
+    // when
+    final projects = await projectFinder.find(
+      path: testProjectPath,
+      isFlutter: true,
+    );
+
+    // then
+    expect(projects, hasLength(1));
+    expect(projects, anyElement((Project it) => it.name == "project_with_flutter"));
+  });
+
+  test("should filter projects with dependencies", () async {
+    // when
+    final projects = await projectFinder.find(
+      path: testProjectPath,
+      dependencies: ["test"],
+    );
+
+    // then
+    expect(projects, hasLength(1));
+    expect(projects, anyElement((Project it) => it.name == "project_with_tests"));
   });
 }

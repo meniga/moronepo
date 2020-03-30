@@ -6,15 +6,13 @@
 
 A tool to simplify development in a dart multi-package repository. 
 
-Currently, it supports:
+Currently, it supports following commands:
 
-[Print packages](#print-packages)
+[print command](#print-command)
 
-[Run command](#run-command)
+[run command](#run-command)
 
-[Test command](#test-command)
-
-[Update Flutter SDK command](#update-flutter-sdk-command)
+[update-flutter-sdk command](#update-flutter-sdk-command)
 
 # Usage
 
@@ -25,16 +23,24 @@ dev_dependencies:
   moronepo: any
 ```
 
-### Print packages 
+Run the moronepo command:
+
+```bash
+pub run moronepo [--filter <filter>] [--project <name>] [--working-directory <path>] <command>
+```
+
+where `filter` is a comma-separated list of filters `isFlutter,isDart,hasTests`.
+
+### print command
 
 ```bash
 pub run moronepo print
 ```
 
-### Run command
+### run command
 
 ```bash
-pub run moronepo run [-p project_name>] <command>
+pub run moronepo run <command>
 ```
 
 For example:
@@ -43,13 +49,7 @@ For example:
 pub run moronepo run pub get
 ```
 
-### Test command
-
-```bash
-pub run moronepo test [-p project_name] <args_for_test>
-```
-
-### Update-flutter-sdk command
+### update-flutter-sdk command
 
 Specifying `environment.flutter` in `pubspec.yaml`:
 
@@ -62,18 +62,25 @@ environment:
 and then running:
 
 ```bash
-pub run moronepo update-flutter-sdk [-p project_name]
+pub run moronepo update-flutter-sdk
 ```
 
 forces an update to the Flutter SDK to the latest version within those
 constraints.
 
-# MVP
+# Tips
 
-- installable as a global command, e.g. `pub global activate moronepo`
-- what is a subproject (including root)? everything that has a pubspec.yaml file
+### Installing as a global command
 
-# Next iterations
-- filter projects by relative path
-- filter projects by type and features (e.g. has tests or not)
-- run multiple commands per project
+You can follow [how to set up a global command](https://dart.dev/tools/pub/cmd/pub-global)  
+and activate `moronepo`:
+
+```bash
+pub global activate moronepo
+```
+
+to make it available as a regular shell command:
+
+```bash
+moronepo print
+```

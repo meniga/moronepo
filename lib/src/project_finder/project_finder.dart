@@ -13,6 +13,9 @@ class ProjectFinder {
     @required String path,
     String name,
     bool hasTests,
+    bool isDart,
+    bool isFlutter,
+    List<String> dependencies,
   }) {
     return Glob("{**/pubspec.yaml,pubspec.yaml}")
         .list(root: path)
@@ -28,11 +31,23 @@ class ProjectFinder {
             hasTests: pubspec.devDependencies.keys.where((it) => _isTestDependency(it)).isNotEmpty,
             isRoot: file.parent.path == path,
             flutterVersionConstraint: pubspec.environment["flutter"],
+            dependencies: pubspec.dependencies.keys,
+            devDependencies: pubspec.devDependencies.keys,
           );
         })
         .where((project) => _hasParameterIfExpectedTo(project.name, name))
         .where((project) => _hasParameterIfExpectedTo(project.hasTests, hasTests))
+        .where((project) => _hasParameterIfExpectedTo(project.isFlutter, isFlutter))
+        .where((project) => _hasParameterIfExpectedTo(project.isDart, isDart))
+        .where((project) => _hasDependenciesIfExpectedTo(project, dependencies))
         .toList();
+  }
+
+  bool _hasDependenciesIfExpectedTo(Project project, List<String> dependencies) {
+    final allDependencies = project.dependencies.followedBy(project.devDependencies);
+    return (dependencies != null && dependencies.isNotEmpty)
+        ? dependencies.every((it) => allDependencies.contains(it))
+        : true;
   }
 
   bool _isTestDependency(String dependencyName) => [

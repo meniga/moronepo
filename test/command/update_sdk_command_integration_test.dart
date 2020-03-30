@@ -27,7 +27,7 @@ void main() {
           "${projectDirectory.path}/test_resources/command/test_project/empty_directory";
       expect(
           () => MonorepoCommandRunner.withDefaultCommands().run([
-                "-d",
+                "--working-directory",
                 emptyDirectory,
                 "update-flutter-sdk",
               ]),
@@ -43,7 +43,7 @@ void main() {
 
       // when
       await commandRunner.run([
-        "-d",
+        "--working-directory",
         testDirectory,
         "update-flutter-sdk",
       ]);
@@ -76,7 +76,7 @@ void main() {
 
       // when
       await commandRunner.run([
-        "-d",
+        "--working-directory",
         testDirectory,
         "update-flutter-sdk",
       ]);
