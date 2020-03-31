@@ -12,8 +12,6 @@ class Project {
   final Iterable<String> dependencies;
   final Iterable<String> devDependencies;
 
-  bool get isDart => !isFlutter;
-
   Project({
     @required this.name,
     @required this.path,

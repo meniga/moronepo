@@ -4,7 +4,7 @@ import 'package:args/command_runner.dart';
 import 'package:mockito/mockito.dart';
 import 'package:moronepo/src/command/update_flutter_sdk_command.dart';
 import 'package:moronepo/src/flutter_finder/flutter_finder.dart';
-import 'package:moronepo/src/monorepo_command_runner.dart';
+import 'package:moronepo/src/moronepo_command_runner.dart';
 import 'package:moronepo/src/process_starter/process_starter.dart';
 import 'package:test/test.dart';
 
@@ -27,7 +27,7 @@ void main() {
       final emptyDirectory =
           "${projectDirectory.path}/test_resources/command/test_project/empty_directory";
       expect(
-          () => MonorepoCommandRunner.withDefaultCommands().run([
+          () => MoronepoCommandRunner.withDefaultCommands().run([
                 "--working-directory",
                 emptyDirectory,
                 "update-flutter-sdk",
@@ -38,7 +38,7 @@ void main() {
     test("should not update sdk if current version within constraints", () async {
       // given
       final updateCommand = UpdateFlutterSdkCommand(processStarter: processStarter);
-      commandRunner = MonorepoCommandRunner([updateCommand]);
+      commandRunner = MoronepoCommandRunner([updateCommand]);
       when(processStarter.start("flutter", ["--version"], any))
           .thenAnswer((_) => Future.value(ProcessOutput("Flutter 1.10.1 • channel ...")));
 
@@ -64,7 +64,7 @@ void main() {
         flutterFinder: flutterFinder,
       );
       when(flutterFinder.findFlutter()).thenReturn(flutterSdkPath);
-      commandRunner = MonorepoCommandRunner([updateCommand]);
+      commandRunner = MoronepoCommandRunner([updateCommand]);
       when(processStarter.start("flutter", ["--version"], any))
           .thenAnswer((_) => Future.value(ProcessOutput("Flutter 0.11.13 • channel ...")));
       when(processStarter.start("flutter", ["version"], any))

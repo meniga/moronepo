@@ -1,4 +1,4 @@
-import 'package:moronepo/src/monorepo_command_runner.dart';
+import 'package:moronepo/src/moronepo_command_runner.dart';
 import 'package:test/test.dart';
 
 import '../directories.dart';
@@ -10,7 +10,7 @@ void main() {
   group("print", () {
     test("should print project structure", () async {
       expect(
-          () => MonorepoCommandRunner.withDefaultCommands().run([
+          () => MoronepoCommandRunner.withDefaultCommands().run([
                 "--working-directory",
                 "$testResourcesPath/command/test_project",
                 "print",
@@ -30,7 +30,7 @@ void main() {
     test("should notify if no projects found", () async {
       final emptyDirectory = "$testResourcesPath/command/test_project/empty_directory";
       expect(
-          () => MonorepoCommandRunner.withDefaultCommands().run([
+          () => MoronepoCommandRunner.withDefaultCommands().run([
                 "--working-directory",
                 emptyDirectory,
                 "print",

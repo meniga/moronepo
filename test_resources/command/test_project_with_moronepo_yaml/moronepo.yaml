@@ -1,8 +1,0 @@
-build:
-  analyze: true
-  update-flutter-sdk: true
-  test-script:
-    - --coverage --coverage-path=build/lcov.info
-    - --machine | tojunit > TEST-all.xml
-  build-script:
-    - build_runner build --delete-conflicting-outputs --fail-on-severe
