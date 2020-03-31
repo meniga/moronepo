@@ -1,4 +1,4 @@
-import 'package:moronepo/src/monorepo_command_runner.dart';
+import 'package:moronepo/src/moronepo_command_runner.dart';
 import 'package:test/test.dart';
 
 import '../directories.dart';
@@ -10,7 +10,7 @@ void main() {
     test("should notify if no projects found", () async {
       final emptyDirectory = "${testDirectory}/empty_directory";
       expect(
-          () => MonorepoCommandRunner.withDefaultCommands().run([
+          () => MoronepoCommandRunner.withDefaultCommands().run([
                 "--working-directory",
                 emptyDirectory,
                 "run",
@@ -21,7 +21,7 @@ void main() {
 
     test("should run command for each project", () async {
       expect(
-          () => MonorepoCommandRunner.withDefaultCommands().run([
+          () => MoronepoCommandRunner.withDefaultCommands().run([
                 "--working-directory",
                 testDirectory,
                 "run",
@@ -41,7 +41,7 @@ void main() {
 
     test("should exit on first failure", () async {
       expect(
-        () => MonorepoCommandRunner.withDefaultCommands().run([
+        () => MoronepoCommandRunner.withDefaultCommands().run([
           "--working-directory",
           testDirectory,
           "run",
@@ -59,7 +59,7 @@ void main() {
 
     test("should run flutter test command for flutter projects", () async {
       expect(
-          () => MonorepoCommandRunner.withDefaultCommands().run([
+          () => MoronepoCommandRunner.withDefaultCommands().run([
                 "--working-directory",
                 testDirectory,
                 "--filter",
@@ -78,7 +78,7 @@ void main() {
 
     test("should run flutter pub run test command for non-flutter projects", () async {
       expect(
-          () => MonorepoCommandRunner.withDefaultCommands().run([
+          () => MoronepoCommandRunner.withDefaultCommands().run([
                 "--working-directory",
                 testDirectory,
                 "--filter",
