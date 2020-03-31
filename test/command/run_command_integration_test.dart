@@ -48,8 +48,7 @@ void main() {
           "UNAVAILABLE_COMMAND_TO_FAIL_THE_TEST",
         ]),
         prints(
-          contains(
-              "Running \"UNAVAILABLE_COMMAND_TO_FAIL_THE_TEST\" for project_with_flutter project\n"),
+          startsWith("Running \"UNAVAILABLE_COMMAND_TO_FAIL_THE_TEST\""),
         ),
       );
     });
