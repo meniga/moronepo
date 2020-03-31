@@ -12,7 +12,8 @@ import '../directories.dart';
 import '../trimmer.dart';
 
 void main() {
-  final testDirectory = "${projectDirectory.path}/test_resources/command/test_project_with_version";
+  final testDirectory =
+      "${projectDirectory.path}/test_resources/command/test_project_with_version_constraint";
 
   group("update-flutter-sdk", () {
     CommandRunner commandRunner;
@@ -65,13 +66,13 @@ void main() {
       when(flutterFinder.findFlutter()).thenReturn(flutterSdkPath);
       commandRunner = MonorepoCommandRunner([updateCommand]);
       when(processStarter.start("flutter", ["--version"], any))
-          .thenAnswer((_) => Future.value(ProcessOutput("Flutter 1.9.8 • channel ...")));
+          .thenAnswer((_) => Future.value(ProcessOutput("Flutter 0.11.13 • channel ...")));
       when(processStarter.start("flutter", ["version"], any))
           .thenAnswer((_) => Future.value(ProcessOutput(trim("""
-            v1.12.13+hotfix.8
             v1.11.0
             v1.10.1
             v1.10.0
+            v0.11.13
             """))));
 
       // when
@@ -86,7 +87,7 @@ void main() {
         processStarter.start("flutter", ["--version"], any),
         processStarter.start("git", ["fetch"], flutterSdkPath),
         processStarter.start("flutter", ["version"], any),
-        processStarter.start("flutter", ["version", "1.10.1"], any),
+        processStarter.start("flutter", ["version", "1.11.0"], any),
       ]);
     });
   });

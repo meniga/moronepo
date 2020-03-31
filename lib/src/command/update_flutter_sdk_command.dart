@@ -28,8 +28,11 @@ class UpdateFlutterSdkCommand extends MoronepoCommand<Null> {
   @override
   FutureOr<Null> run() async {
     final rootDirectory = moronepoResults.workingDirectory ?? Directory.current.path;
-    final projects = await ProjectFinder().find(path: rootDirectory);
-    final rootProject = projects.firstWhere((it) => it.isRoot, orElse: () => null);
+    final foundProjects = await ProjectFinder().find(
+      path: rootDirectory,
+      isRoot: true,
+    );
+    final rootProject = foundProjects.isNotEmpty ? foundProjects.single : null;
 
     if (rootProject == null) {
       print("No root project found in $rootDirectory");

@@ -12,8 +12,8 @@ class ProjectFinder {
   Future<List<Project>> find({
     @required String path,
     String name,
+    bool isRoot,
     bool hasTests,
-    bool isDart,
     bool isFlutter,
     List<String> dependencies,
   }) {
@@ -36,10 +36,10 @@ class ProjectFinder {
             devDependencies: pubspec.devDependencies.keys,
           );
         })
+        .where((project) => _hasParameterIfExpectedTo(project.isRoot, isRoot))
         .where((project) => _hasParameterIfExpectedTo(project.name, name))
         .where((project) => _hasParameterIfExpectedTo(project.hasTests, hasTests))
         .where((project) => _hasParameterIfExpectedTo(project.isFlutter, isFlutter))
-        .where((project) => _hasParameterIfExpectedTo(project.isDart, isDart))
         .where((project) => _hasDependenciesIfExpectedTo(project, dependencies))
         .toList();
   }
