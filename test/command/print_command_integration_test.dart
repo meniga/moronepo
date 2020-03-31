@@ -22,6 +22,7 @@ void main() {
             project_inside_project
             project_with_flutter
             project_with_tests
+            project_without_test_directory
             root
           """)));
     });

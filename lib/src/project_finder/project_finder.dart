@@ -24,11 +24,12 @@ class ProjectFinder {
         .asyncMap((File file) async {
           final content = await file.readAsString();
           final pubspec = Pubspec.parse(content);
+          final projectPath = dirname(file.path);
           return Project(
             name: pubspec.name,
-            path: dirname(file.path),
+            path: projectPath,
             isFlutter: pubspec.dependencies.containsKey("flutter"),
-            hasTests: pubspec.devDependencies.keys.where((it) => _isTestDependency(it)).isNotEmpty,
+            hasTests: _hasTests(pubspec, projectPath),
             isRoot: file.parent.path == path,
             flutterVersionConstraint: pubspec.environment["flutter"],
             dependencies: pubspec.dependencies.keys,
@@ -41,6 +42,13 @@ class ProjectFinder {
         .where((project) => _hasParameterIfExpectedTo(project.isDart, isDart))
         .where((project) => _hasDependenciesIfExpectedTo(project, dependencies))
         .toList();
+  }
+
+  bool _hasTests(Pubspec pubspec, String projectPath) {
+    final hasTestDependency =
+        pubspec.devDependencies.keys.where((it) => _isTestDependency(it)).isNotEmpty;
+    final hasTestDirectory = Directory("${projectPath}/test").existsSync();
+    return hasTestDependency && hasTestDirectory;
   }
 
   bool _hasDependenciesIfExpectedTo(Project project, List<String> dependencies) {
