@@ -76,13 +76,13 @@ void main() {
           )));
     });
 
-    test("should run flutter pub run test command for dart projects", () async {
+    test("should run flutter pub run test command for non-flutter projects", () async {
       expect(
           () => MonorepoCommandRunner.withDefaultCommands().run([
                 "--working-directory",
                 testDirectory,
                 "--filter",
-                "hasTests,isDart",
+                "hasTests,!isFlutter",
                 "run",
                 "flutter",
                 "pub",

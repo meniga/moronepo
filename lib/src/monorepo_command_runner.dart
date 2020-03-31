@@ -31,8 +31,9 @@ class MonorepoCommandRunner extends CommandRunner<Null> {
       help: "runs the command for projects that match filter",
       allowed: [
         "hasTests",
+        "!hasTests",
         "isFlutter",
-        "isDart",
+        "!isFlutter",
       ],
     );
     argParser.addMultiOption(

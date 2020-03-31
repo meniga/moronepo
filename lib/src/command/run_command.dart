@@ -16,10 +16,11 @@ class RunCommand extends MoronepoCommand<Null> {
 
   @override
   FutureOr<Null> run() async {
-    final projectName = moronepoResults.projectName;
+    final projectFilters = moronepoResults.projectFilters;
+    final projectName = projectFilters.name;
     final isProjectSpecified = projectName?.isNotEmpty ?? false;
     final rootDirectory = moronepoResults.workingDirectory ?? Directory.current.path;
-    Iterable<Project> projects = await _findProjects(rootDirectory, projectName);
+    Iterable<Project> projects = await _findProjects(rootDirectory, projectFilters);
     if (isProjectSpecified) {
       projects = projects.where((project) => project.name == projectName);
     }
@@ -59,14 +60,13 @@ class RunCommand extends MoronepoCommand<Null> {
     }
   }
 
-  Future<List<Project>> _findProjects(String rootDirectory, String projectName) async {
+  Future<List<Project>> _findProjects(String rootDirectory, ProjectFilters filters) async {
     return ProjectFinder().find(
       path: rootDirectory,
-      dependencies: moronepoResults.dependencies,
-      hasTests: moronepoResults.hasTests,
-      isDart: moronepoResults.isDart,
-      isFlutter: moronepoResults.isFlutter,
-      name: projectName,
+      dependencies: filters.dependencies,
+      hasTests: filters.hasTests,
+      isFlutter: filters.isFlutter,
+      name: filters.name,
     );
   }
 }
@@ -77,5 +77,5 @@ class CommandException {
   CommandException(this.exitCode);
 
   @override
-  String toString() => "$exitCode";
+  String toString() => "Command exitted with code $exitCode";
 }

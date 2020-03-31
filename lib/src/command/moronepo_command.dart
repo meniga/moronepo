@@ -1,32 +1,57 @@
 import 'package:args/command_runner.dart';
+import 'package:args/src/arg_results.dart';
 
 abstract class MoronepoCommand<T> extends Command<T> {
   MoronepoResults get moronepoResults => MoronepoResults(
         workingDirectory: _fromGlobalResults("working-directory"),
-        projectName: _fromGlobalResults("project"),
-        filter: _fromGlobalResults("filter"),
-        dependencies: _fromGlobalResults("dependencies"),
+        projectFilters: ProjectFilters.from(globalResults),
       );
 
-  R _fromGlobalResults<R>(String name) => globalResults[name] as R;
+  R _fromGlobalResults<R>(String name) => _fromResults(globalResults, name);
 }
 
 class MoronepoResults {
   final String workingDirectory;
-  final String projectName;
-  final List<String> filter;
-  final List<String> dependencies;
+  final ProjectFilters projectFilters;
 
   MoronepoResults({
     this.workingDirectory,
-    this.projectName,
-    this.filter,
+    this.projectFilters,
+  });
+}
+
+class ProjectFilters {
+  final String name;
+  final List<String> dependencies;
+  final bool isFlutter;
+  final bool hasTests;
+
+  ProjectFilters({
+    this.name,
     this.dependencies,
+    this.isFlutter,
+    this.hasTests,
   });
 
-  bool get isDart => filter.contains("isDart") ? true : null;
+  factory ProjectFilters.from(ArgResults results) {
+    List<String> filter = _fromResults(results, "filter");
+    return ProjectFilters(
+      name: _fromResults(results, "project"),
+      dependencies: _fromResults(results, "dependencies"),
+      isFlutter: _extractFlag(filter, "isFlutter"),
+      hasTests: _extractFlag(filter, "hasTests"),
+    );
+  }
+}
 
-  bool get isFlutter => filter.contains("isFlutter") ? true : null;
+R _fromResults<R>(ArgResults results, String name) => results[name] as R;
 
-  bool get hasTests => filter.contains("hasTests") ? true : null;
+bool _extractFlag(List<String> filter, String flag) {
+  if (filter.contains(flag)) {
+    return true;
+  } else if (filter.contains("!$flag")) {
+    return false;
+  } else {
+    return null;
+  }
 }
