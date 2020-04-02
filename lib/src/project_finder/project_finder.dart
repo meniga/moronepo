@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:glob/glob.dart';
 import 'package:meta/meta.dart';
-import 'package:moronepo/src/command/project_filters.dart';
+import 'package:moronepo/src/project_finder/project_filters.dart';
 import 'package:path/path.dart';
 import 'package:pubspec_parse/pubspec_parse.dart';
 

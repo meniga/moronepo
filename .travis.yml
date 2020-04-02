@@ -1,5 +1,4 @@
 language: dart
-sudo: false
 dart:
   - stable
   - dev
@@ -19,6 +18,7 @@ install:
 script:
   - flutter analyze
   - flutter test --coverage
+  - dartdoc --no-generate-docs
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

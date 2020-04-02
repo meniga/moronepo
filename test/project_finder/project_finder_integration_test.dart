@@ -1,4 +1,4 @@
-import 'package:moronepo/src/command/project_filters.dart';
+import 'package:moronepo/src/project_finder/project_filters.dart';
 import 'package:moronepo/src/project_finder/project.dart';
 import 'package:moronepo/src/project_finder/project_finder.dart';
 import 'package:test/test.dart';

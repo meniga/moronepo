@@ -20,7 +20,7 @@ Add `moronepo` to `dev_dependencies`.
 
 ```yaml
 dev_dependencies:
-  moronepo: any
+  moronepo: ^0.1.1
 ```
 
 Run the moronepo command:
