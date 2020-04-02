@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:moronepo/src/command/command_and_arguments_formatter.dart';
 import 'package:moronepo/src/command/moronepo_command.dart';
-import 'package:moronepo/src/command/project_filters.dart';
+import 'package:moronepo/src/project_finder/project_filters.dart';
 
 import '../project_finder/project.dart';
 import '../project_finder/project_finder.dart';

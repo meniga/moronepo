@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:moronepo/src/command/moronepo_command.dart';
-import 'package:moronepo/src/command/project_filters.dart';
+import 'package:moronepo/src/project_finder/project_filters.dart';
 import 'package:moronepo/src/flutter_finder/flutter_finder.dart';
 import 'package:moronepo/src/process_starter/process_starter.dart';
 import 'package:pub_semver/pub_semver.dart';

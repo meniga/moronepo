@@ -1,5 +1,5 @@
 import 'package:args/args.dart';
-import 'package:moronepo/src/command/project_filters.dart';
+import 'package:moronepo/src/project_finder/project_filters.dart';
 import 'package:moronepo/src/options_setter.dart';
 import 'package:test/test.dart';
 

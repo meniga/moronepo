@@ -1,4 +1,4 @@
-## 0.1.x
+## 0.1.1
 
 * Add update-flutter-sdk command
 * Add `--filter` option to filter out projects
