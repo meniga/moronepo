@@ -6,13 +6,15 @@ class ProjectFilters extends Equatable {
   final List<String> dependencies;
   final bool isFlutter;
   final bool hasTests;
+  final bool isRoot;
 
-  ProjectFilters({
+  const ProjectFilters({
     this.name,
     List<String> dependencies,
     this.isFlutter,
     this.hasTests,
-  }) : this.dependencies = dependencies ?? [];
+    this.isRoot,
+  }) : this.dependencies = dependencies ?? const [];
 
   factory ProjectFilters.from(ArgResults results) {
     List<String> filter = fromResults(results, "filter");
@@ -21,6 +23,7 @@ class ProjectFilters extends Equatable {
       dependencies: fromResults(results, "dependencies"),
       isFlutter: _extractFlag(filter, "isFlutter"),
       hasTests: _extractFlag(filter, "hasTests"),
+      isRoot: _extractFlag(filter, "isRoot"),
     );
   }
 
@@ -30,6 +33,7 @@ class ProjectFilters extends Equatable {
         dependencies,
         isFlutter,
         hasTests,
+        isRoot,
       ];
 
   @override

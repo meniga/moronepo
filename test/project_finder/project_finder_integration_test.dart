@@ -1,3 +1,4 @@
+import 'package:moronepo/src/command/project_filters.dart';
 import 'package:moronepo/src/project_finder/project.dart';
 import 'package:moronepo/src/project_finder/project_finder.dart';
 import 'package:test/test.dart';
@@ -33,7 +34,7 @@ void main() {
       // when
       final projects = await projectFinder.find(
         path: testProjectPath,
-        name: "project1",
+        filters: ProjectFilters(name: "project1"),
       );
 
       // then
@@ -44,7 +45,7 @@ void main() {
       // when
       final projects = await projectFinder.find(
         path: testProjectPath,
-        hasTests: true,
+        filters: ProjectFilters(hasTests: true),
       );
 
       // then
@@ -55,7 +56,7 @@ void main() {
       // when
       final projects = await projectFinder.find(
         path: testProjectPath,
-        isRoot: true,
+        filters: ProjectFilters(isRoot: true),
       );
 
       // then
@@ -66,7 +67,7 @@ void main() {
       // when
       final projects = await projectFinder.find(
         path: testProjectPath,
-        isFlutter: false,
+        filters: ProjectFilters(isFlutter: false),
       );
 
       // then
@@ -85,7 +86,7 @@ void main() {
       // when
       final projects = await projectFinder.find(
         path: testProjectPath,
-        isFlutter: true,
+        filters: ProjectFilters(isFlutter: true),
       );
 
       // then
@@ -96,7 +97,7 @@ void main() {
       // when
       final projects = await projectFinder.find(
         path: testProjectPath,
-        dependencies: ["test"],
+        filters: ProjectFilters(dependencies: ["test"]),
       );
 
       // then

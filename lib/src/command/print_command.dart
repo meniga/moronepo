@@ -19,10 +19,7 @@ class PrintCommand extends MoronepoCommand<Null> {
     final finder = ProjectFinder();
     final projects = await finder.find(
       path: rootDirectory,
-      dependencies: projectFilters.dependencies,
-      hasTests: projectFilters.hasTests,
-      isFlutter: projectFilters.isFlutter,
-      name: projectFilters.name,
+      filters: projectFilters,
     );
     final projectNames = projects.map((Project project) => project.name).toList();
     projectNames.sort();

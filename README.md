@@ -29,7 +29,7 @@ Run the moronepo command:
 pub run moronepo [--filter <filter>] [--project <name>] [--working-directory <path>] <command>
 ```
 
-where `filter` is a comma-separated list of filters `isFlutter,hasTests`.
+where `filter` is a comma-separated list of filters `hasTests,isFlutter,isRoot`.
 Each filter can be negated by preceding it with a `!`, for example `!isFlutter`.
 
 ### print command
