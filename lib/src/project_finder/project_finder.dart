@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:glob/glob.dart';
 import 'package:meta/meta.dart';
+import 'package:moronepo/src/command/project_filters.dart';
 import 'package:path/path.dart';
 import 'package:pubspec_parse/pubspec_parse.dart';
 
@@ -11,11 +12,7 @@ import 'project.dart';
 class ProjectFinder {
   Future<List<Project>> find({
     @required String path,
-    String name,
-    bool isRoot,
-    bool hasTests,
-    bool isFlutter,
-    List<String> dependencies,
+    ProjectFilters filters = const ProjectFilters(),
   }) {
     return Glob("{**/pubspec.yaml,pubspec.yaml}")
         .list(root: path)
@@ -36,11 +33,11 @@ class ProjectFinder {
             devDependencies: pubspec.devDependencies.keys,
           );
         })
-        .where((project) => _hasParameterIfExpectedTo(project.isRoot, isRoot))
-        .where((project) => _hasParameterIfExpectedTo(project.name, name))
-        .where((project) => _hasParameterIfExpectedTo(project.hasTests, hasTests))
-        .where((project) => _hasParameterIfExpectedTo(project.isFlutter, isFlutter))
-        .where((project) => _hasDependenciesIfExpectedTo(project, dependencies))
+        .where((project) => _hasParameterIfExpectedTo(project.isRoot, filters.isRoot))
+        .where((project) => _hasParameterIfExpectedTo(project.name, filters.name))
+        .where((project) => _hasParameterIfExpectedTo(project.hasTests, filters.hasTests))
+        .where((project) => _hasParameterIfExpectedTo(project.isFlutter, filters.isFlutter))
+        .where((project) => _hasDependenciesIfExpectedTo(project, filters.dependencies))
         .toList();
   }
 

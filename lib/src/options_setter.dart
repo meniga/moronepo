@@ -13,6 +13,8 @@ class OptionsSetter {
         "!hasTests",
         "isFlutter",
         "!isFlutter",
+        "isRoot",
+        "!isRoot",
       ],
     );
     argParser.addMultiOption(

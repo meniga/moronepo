@@ -64,10 +64,7 @@ class RunCommand extends MoronepoCommand<Null> {
   Future<List<Project>> _findProjects(String rootDirectory, ProjectFilters filters) async {
     return ProjectFinder().find(
       path: rootDirectory,
-      dependencies: filters.dependencies,
-      hasTests: filters.hasTests,
-      isFlutter: filters.isFlutter,
-      name: filters.name,
+      filters: filters,
     );
   }
 }

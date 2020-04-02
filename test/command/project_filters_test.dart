@@ -7,7 +7,11 @@ void main() {
   group("project_filters", () {
     Map.of({
       ["--project", "my_project"]: ProjectFilters(name: "my_project"),
-      ["--filter", "isFlutter,!hasTests"]: ProjectFilters(isFlutter: true, hasTests: false),
+      ["--filter", "isFlutter,!hasTests,!isRoot"]: ProjectFilters(
+        isFlutter: true,
+        hasTests: false,
+        isRoot: false,
+      ),
       ["--dependencies", "test,flutter"]: ProjectFilters(dependencies: ["test", "flutter"]),
     }).forEach((args, expected) {
       test("should instantiate $expected from arguments $args", () {
