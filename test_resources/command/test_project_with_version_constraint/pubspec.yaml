@@ -1,3 +1,3 @@
 name: test_project_with_version_constraint
 environment:
-  flutter: ">1.0.0"
+  flutter_enforced: ">=1.10.0 <1.11.0"

@@ -8,7 +8,7 @@ authors:
 homepage: https://github.com/meniga/moronepo
 
 environment:
-  sdk: ">=2.6.0 <3.0.0"
+  sdk: ">=2.5.0 <3.0.0"
 
 executables:
   moronepo:
@@ -19,16 +19,18 @@ dependencies:
   flutter:
     sdk: flutter
   glob: ^1.2.0
-  json_annotation: ^3.0.1
+  json_annotation: ^2.3.0
   logging: ^0.11.4
+  meta: ^1.1.7
   pubspec_parse: ^0.1.5
   path: ^1.6.4
+  quiver: ^2.0.0
 
 dev_dependencies:
-  build_runner: ^1.0.0
+  build_runner: ^1.7.1
   flutter_test:
     sdk: flutter
-  json_serializable: ^3.3.0
+  json_serializable: ^2.3.0
   mockito: ^4.1.1
   pedantic: ^1.8.0+1
-  test: ^1.9.4
+  test: ^1.6.3
