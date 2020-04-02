@@ -66,13 +66,13 @@ void main() {
       when(flutterFinder.findFlutter()).thenReturn(flutterSdkPath);
       commandRunner = MoronepoCommandRunner([updateCommand]);
       when(processStarter.start("flutter", ["--version"], any))
-          .thenAnswer((_) => Future.value(ProcessOutput("Flutter 0.11.13 • channel ...")));
+          .thenAnswer((_) => Future.value(ProcessOutput("Flutter 1.9.8+hotfix.4 • channel ...")));
       when(processStarter.start("flutter", ["version"], any))
           .thenAnswer((_) => Future.value(ProcessOutput(trim("""
             v1.11.0
             v1.10.1
             v1.10.0
-            v0.11.13
+            v1.9.8+hotfix.4
             """))));
 
       // when
@@ -87,7 +87,7 @@ void main() {
         processStarter.start("flutter", ["--version"], any),
         processStarter.start("git", ["fetch"], flutterSdkPath),
         processStarter.start("flutter", ["version"], any),
-        processStarter.start("flutter", ["version", "1.11.0"], any),
+        processStarter.start("flutter", ["version", "1.10.1"], any),
       ]);
     });
   });
