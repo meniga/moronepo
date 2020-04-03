@@ -66,13 +66,12 @@ void main() {
       when(flutterFinder.findFlutter()).thenReturn(flutterSdkPath);
       commandRunner = MoronepoCommandRunner([updateCommand]);
       when(processStarter.start("flutter", ["--version"], any))
-          .thenAnswer((_) => Future.value(ProcessOutput("Flutter 1.9.8+hotfix.4 • channel ...")));
+          .thenAnswer((_) => Future.value(ProcessOutput("Flutter 0.9.6 • channel ...")));
       when(processStarter.start("flutter", ["version"], any))
           .thenAnswer((_) => Future.value(ProcessOutput(trim("""
-            v1.11.0
             v1.10.1
             v1.10.0
-            v1.9.8+hotfix.4
+            v0.9.6
             """))));
 
       // when
