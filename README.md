@@ -16,38 +16,58 @@ Currently, it supports following commands:
 
 # Usage
 
-Add `moronepo` to `dev_dependencies`.
-
-```yaml
-dev_dependencies:
-  moronepo: ^0.1.1
-```
-
-Run the moronepo command:
+Activate `moronepo`:
 
 ```bash
-pub run moronepo [--filter <filter>] [--project <name>] [--working-directory <path>] <command>
+pub global activate moronepo
+```
+
+or prepend each command with `flutter` if used:
+
+```bash
+flutter pub global activate moronepo
+```
+
+Now it should be possible to run `moronepo`:
+
+```bash
+pub global run moronepo [--filter <filter>] [--project <name>] [--working-directory <path>] <command>
 ```
 
 where `filter` is a comma-separated list of filters `hasTests,isFlutter,isRoot`.
 Each filter can be negated by preceding it with a `!`, for example `!isFlutter`.
 
+You can also follow [how to set up a global command](https://dart.dev/tools/pub/cmd/pub-global)  
+to make it available as a regular shell command by appending `PATH`.
+
+```bash
+moronepo print
+```
+
+or creating an alias instead:
+
+```bash
+alias moronepo="flutter pub global run moronepo"
+
+moronepo print
+```
+
 ### print command
 
 ```bash
-pub run moronepo print
+moronepo print
 ```
 
 ### run command
 
 ```bash
-pub run moronepo run <command>
+moronepo run <command>
 ```
 
 For example:
 
 ```bash
-pub run moronepo run pub get
+moronepo run pub get
 ```
 
 ### update-flutter-sdk command
@@ -63,25 +83,8 @@ environment:
 and then running:
 
 ```bash
-pub run moronepo update-flutter-sdk
+moronepo update-flutter-sdk
 ```
 
 forces an update to the Flutter SDK to the latest version within those
 constraints.
-
-# Tips
-
-### Installing as a global command
-
-You can follow [how to set up a global command](https://dart.dev/tools/pub/cmd/pub-global)  
-and activate `moronepo`:
-
-```bash
-pub global activate moronepo
-```
-
-to make it available as a regular shell command:
-
-```bash
-moronepo print
-```
