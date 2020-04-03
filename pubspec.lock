@@ -278,7 +278,7 @@ packages:
     source: hosted
     version: "0.11.4"
   matcher:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: matcher
       url: "https://pub.dartlang.org"
@@ -369,7 +369,7 @@ packages:
     source: hosted
     version: "1.4.0"
   pub_semver:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: pub_semver
       url: "https://pub.dartlang.org"
