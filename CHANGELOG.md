@@ -1,3 +1,7 @@
+## 0.1.x
+
+* Fix improper `flutter --version` parsing
+
 ## 0.1.1
 
 * Add update-flutter-sdk command

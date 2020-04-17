@@ -55,6 +55,29 @@ void main() {
       ]);
     });
 
+    test("should not fail if flutter command is locked", () async {
+      // given
+      final updateCommand = UpdateFlutterSdkCommand(processStarter: processStarter);
+      commandRunner = MoronepoCommandRunner([updateCommand]);
+      when(processStarter.start("flutter", ["--version"], any))
+          .thenAnswer((_) => Future.value(ProcessOutput(trim("""
+          Waiting for another flutter command to release the startup lock...
+          Flutter 1.10.1 • channel unknown • unknown source
+          """))));
+
+      // when
+      await commandRunner.run([
+        "--working-directory",
+        testDirectory,
+        "update-flutter-sdk",
+      ]);
+
+      // then
+      verifyInOrder([
+        processStarter.start("flutter", ["--version"], any),
+      ]);
+    });
+
     test("should fetch refs and update sdk if current version not within constraints", () async {
       // given
       final flutterFinder = MockFlutterFinder();
