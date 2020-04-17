@@ -55,7 +55,8 @@ class UpdateFlutterSdkCommand extends MoronepoCommand<Null> {
 
   Future<Version> _fetchFlutterVersion(String path) async {
     final processOutput = await _processStarter.start("flutter", ["--version"], path);
-    return Version.parse(processOutput.output.split(" ")[1]);
+    final version = RegExp(r"Flutter ([^\s]+)").firstMatch(processOutput.output).group(1);
+    return Version.parse(version);
   }
 
   Future<void> _fetchFlutterSdk() async {
