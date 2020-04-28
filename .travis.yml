@@ -19,6 +19,7 @@ script:
   - flutter analyze
   - flutter test --coverage
   - dartdoc --no-generate-docs
+  - pub publish --dry-run
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

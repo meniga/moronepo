@@ -31,7 +31,7 @@ flutter pub global activate moronepo
 Now it should be possible to run `moronepo`:
 
 ```bash
-pub global run moronepo [--filter <filter>] [--project <name>] [--working-directory <path>] <command>
+moronepo [--filter <filter>] [--project <name>] [--working-directory <path>] <command>
 ```
 
 where `filter` is a comma-separated list of filters `hasTests,isFlutter,isRoot`.

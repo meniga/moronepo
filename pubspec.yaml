@@ -1,10 +1,7 @@
 name: moronepo
-version: 0.1.1
+version: 0.1.2
 description: >
   A tool to simplify development in a dart multi-package repository.
-authors:
-  - Artur Stepniewski <artur@meniga.com>
-  - Marcin Stepnowski <marcin.s@meniga.com>
 homepage: https://github.com/meniga/moronepo
 
 environment:

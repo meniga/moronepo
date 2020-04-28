@@ -1,7 +1,9 @@
 import 'package:meta/meta.dart';
+import 'package:moronepo/moronepo.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:quiver/check.dart';
 
+/// Represents a project returned by [ProjectFinder]
 class Project {
   final String name;
   final String path;
