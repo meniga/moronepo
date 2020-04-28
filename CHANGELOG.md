@@ -1,6 +1,7 @@
-## 0.1.x
+## 0.1.2
 
 * Fix improper `flutter --version` parsing
+* Make ProjectFinder a public API
 
 ## 0.1.1
 

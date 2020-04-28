@@ -9,7 +9,9 @@ import 'package:pubspec_parse/pubspec_parse.dart';
 
 import 'project.dart';
 
+/// Search helper for projects in a mono repo.
 class ProjectFinder {
+  /// Find [Project]s in [path] using [filters]
   Future<List<Project>> find({
     @required String path,
     ProjectFilters filters = const ProjectFilters(),

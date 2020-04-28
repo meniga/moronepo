@@ -1,6 +1,8 @@
 import 'package:args/args.dart';
 import 'package:equatable/equatable.dart';
+import 'package:moronepo/moronepo.dart';
 
+/// Represents filters for the [ProjectFinder]
 class ProjectFilters extends Equatable {
   final String name;
   final List<String> dependencies;
