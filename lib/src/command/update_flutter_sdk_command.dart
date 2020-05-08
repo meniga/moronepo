@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:moronepo/src/command/moronepo_command.dart';
-import 'package:moronepo/src/project_finder/project_filters.dart';
 import 'package:moronepo/src/flutter_finder/flutter_finder.dart';
 import 'package:moronepo/src/process_starter/process_starter.dart';
+import 'package:moronepo/src/project_finder/project_filters.dart';
+import 'package:moronepo/src/tag/tag.dart';
+import 'package:moronepo/src/tag/tag_not_found_exception.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 import '../project_finder/project_finder.dart';
@@ -40,51 +42,52 @@ class UpdateFlutterSdkCommand extends MoronepoCommand<Null> {
     } else {
       final versionConstraint = rootProject.flutterVersionConstraint;
       final currentVersion = await _fetchFlutterVersion(rootProject.path);
+      final flutterSdkPath = _flutterFinder.findFlutter();
 
       if (versionConstraint.allows(currentVersion)) {
         print("Flutter version ${currentVersion} within ${versionConstraint}. No need to update.");
       } else {
-        await _fetchFlutterSdk();
-        final availableVersions = await _fetchAvailableFlutterVersions(rootProject.path);
-        final forcedVersion = _determineBestVersion(versionConstraint, availableVersions);
-        print("Running flutter version ${forcedVersion} for ${rootProject.name} project");
-        await _enforceVersion(forcedVersion, rootProject.path);
+        await _fetchFlutterSdk(flutterSdkPath);
+        final availableTags = await _fetchAvailableFlutterVersions(flutterSdkPath);
+        final forcedTag = _determineBestVersion(versionConstraint, availableTags);
+        print("Running flutter version ${forcedTag} for ${rootProject.name} project");
+        await _enforceVersion(forcedTag, rootProject.path);
       }
     }
   }
 
   Future<Version> _fetchFlutterVersion(String path) async {
     final processOutput = await _processStarter.start("flutter", ["--version"], path);
-    final version = RegExp(r"Flutter ([^\s]+)").firstMatch(processOutput.output).group(1);
+    final version =
+        RegExp(r"Flutter ([^\.]+\.[^\.]+\.[^\s]*)").firstMatch(processOutput.output).group(1);
     return Version.parse(version);
   }
 
-  Future<void> _fetchFlutterSdk() async {
-    final flutterSdkPath = _flutterFinder.findFlutter();
+  Future<void> _fetchFlutterSdk(String flutterSdkPath) async {
     return _processStarter.start("git", ["fetch"], flutterSdkPath);
   }
 
-  Future<List<Version>> _fetchAvailableFlutterVersions(String path) async {
-    final processOutput = await _processStarter.start("flutter", ["version"], path);
+  Future<List<Tag>> _fetchAvailableFlutterVersions(String path) async {
+    final processOutput = await _processStarter.start("git", ["tag", "-l", "*.*.*"], path);
     final versionStrings = processOutput.output.split("\n");
     return versionStrings
         .where((it) => it.isNotEmpty)
-        .map((it) => Version.parse(it.substring(1)))
+        .map((it) => Tag(it))
         .toList();
   }
 
-  Version _determineBestVersion(VersionConstraint constraint, List<Version> availableVersions) {
-    final versionCandidates = availableVersions.where((it) => constraint.allows(it)).toList();
-    versionCandidates.sort((first, second) => Version.antiprioritize(first, second));
-    return versionCandidates.first ?? Version.none;
+  Tag _determineBestVersion(VersionConstraint constraint, List<Tag> availableTags) {
+    final versionCandidates = availableTags.where((it) => constraint.allows(it.version)).toList();
+    versionCandidates.sort((first, second) => Version.antiprioritize(first.version, second.version));
+    return versionCandidates.isNotEmpty ? versionCandidates.first : throw TagNotFoundException(constraint);
   }
 
-  Future<void> _enforceVersion(Version forcedVersion, String path) async {
+  Future<void> _enforceVersion(Tag forcedTag, String path) async {
     await _processStarter.start(
-      "flutter",
+      "git",
       [
-        "version",
-        forcedVersion.toString(),
+        "checkout",
+        forcedTag.value,
       ],
       path,
     );

@@ -89,10 +89,13 @@ void main() {
       when(flutterFinder.findFlutter()).thenReturn(flutterSdkPath);
       commandRunner = MoronepoCommandRunner([updateCommand]);
       when(processStarter.start("flutter", ["--version"], any))
-          .thenAnswer((_) => Future.value(ProcessOutput("Flutter 0.9.6 • channel ...")));
-      when(processStarter.start("flutter", ["version"], any))
           .thenAnswer((_) => Future.value(ProcessOutput(trim("""
-            v1.10.1
+          Downloading Dart SDK from Flutter engine ...
+          Flutter 0.9.6 • channel ...
+          """))));
+      when(processStarter.start("git", ["tag", "-l", "*.*.*"], any))
+          .thenAnswer((_) => Future.value(ProcessOutput(trim("""
+            1.10.1
             v1.10.0
             v0.9.6
             """))));
@@ -108,8 +111,8 @@ void main() {
       verifyInOrder([
         processStarter.start("flutter", ["--version"], any),
         processStarter.start("git", ["fetch"], flutterSdkPath),
-        processStarter.start("flutter", ["version"], any),
-        processStarter.start("flutter", ["version", "1.10.1"], any),
+        processStarter.start("git", ["tag", "-l", "*.*.*"], any),
+        processStarter.start("git", ["checkout", "1.10.1"], any),
       ]);
     });
   });
