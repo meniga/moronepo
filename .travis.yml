@@ -4,8 +4,9 @@ dart:
   - dev
 
 before_script:
-  - git clone https://github.com/flutter/flutter.git -b stable /tmp/flutter
-  - export PATH=/tmp/flutter/bin:/tmp/flutter/bin/cache/dart-sdk/bin:$PATH
+  - export FLUTTER_ROOT=$HOME/flutter
+  - git clone https://github.com/flutter/flutter.git -b stable $FLUTTER_ROOT
+  - export PATH=$FLUTTER_ROOT/bin:$FLUTTER_ROOT/bin/cache/dart-sdk/bin:$PATH
 
 cache:
   directories:
