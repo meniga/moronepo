@@ -2,6 +2,7 @@ import 'package:pub_semver/src/version_constraint.dart';
 
 class TagNotFoundException {
   final VersionConstraint _constraint;
+
   TagNotFoundException(this._constraint);
 
   @override

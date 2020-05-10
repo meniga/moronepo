@@ -111,8 +111,9 @@ void main() {
       verifyInOrder([
         processStarter.start("flutter", ["--version"], any),
         processStarter.start("git", ["fetch"], flutterSdkPath),
-        processStarter.start("git", ["tag", "-l", "*.*.*"], any),
-        processStarter.start("git", ["checkout", "1.10.1"], any),
+        processStarter.start("git", ["tag", "-l", "*.*.*"], flutterSdkPath),
+        processStarter.start("git", ["checkout", "1.10.1"], flutterSdkPath),
+        processStarter.start("flutter", ["doctor"], any),
       ]);
     });
   });
