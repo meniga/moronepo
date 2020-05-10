@@ -6,6 +6,7 @@ import 'package:moronepo/src/command/update_flutter_sdk_command.dart';
 import 'package:moronepo/src/flutter_finder/flutter_finder.dart';
 import 'package:moronepo/src/moronepo_command_runner.dart';
 import 'package:moronepo/src/process_starter/process_starter.dart';
+import 'package:moronepo/src/tag/tag_not_found_exception.dart';
 import 'package:test/test.dart';
 
 import '../directories.dart';
@@ -115,6 +116,36 @@ void main() {
         processStarter.start("git", ["checkout", "1.10.1"], flutterSdkPath),
         processStarter.start("flutter", ["doctor"], any),
       ]);
+    });
+
+    test("should throw if specified tag not found", () async {
+      // given
+      final flutterFinder = MockFlutterFinder();
+      final flutterSdkPath = "/path/to/flutter";
+      final updateCommand = UpdateFlutterSdkCommand(
+        processStarter: processStarter,
+        flutterFinder: flutterFinder,
+      );
+      when(flutterFinder.findFlutter()).thenReturn(flutterSdkPath);
+      commandRunner = MoronepoCommandRunner([updateCommand]);
+      when(processStarter.start("flutter", ["--version"], any))
+          .thenAnswer((_) => Future.value(ProcessOutput(trim("""
+          Downloading Dart SDK from Flutter engine ...
+          Flutter 0.9.6 • channel ...
+          """))));
+      when(processStarter.start("git", ["tag", "-l", "*.*.*"], any))
+          .thenAnswer((_) => Future.value(ProcessOutput(trim("""
+            v0.9.6
+            """))));
+
+      // expect
+      expect(
+          () => commandRunner.run([
+                "--working-directory",
+                testDirectory,
+                "update-flutter-sdk",
+              ]),
+          throwsA(TypeMatcher<TagNotFoundException>()));
     });
   });
 }
