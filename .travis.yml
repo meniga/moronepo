@@ -3,11 +3,6 @@ dart:
   - stable
   - dev
 
-before_script:
-  - export FLUTTER_ROOT=$HOME/flutter
-  - git clone https://github.com/flutter/flutter.git -b stable $FLUTTER_ROOT
-  - export PATH=$FLUTTER_ROOT/bin:$FLUTTER_ROOT/bin/cache/dart-sdk/bin:$PATH
-
 cache:
   directories:
     - $HOME/.pub-cache
@@ -15,6 +10,11 @@ cache:
 
 install:
   - bash .travis-pub-get.sh
+
+before_script:
+  - export FLUTTER_ROOT=$HOME/flutter
+  - git clone https://github.com/flutter/flutter.git -b stable $FLUTTER_ROOT
+  - export PATH=$FLUTTER_ROOT/bin:$FLUTTER_ROOT/bin/cache/dart-sdk/bin:$PATH
 
 script:
   - flutter analyze
