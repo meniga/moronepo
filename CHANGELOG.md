@@ -1,3 +1,7 @@
+## 0.1.3
+
+* Make `update-flutter-sdk` use plain `git` whenever possible
+
 ## 0.1.2
 
 * Fix improper `flutter --version` parsing

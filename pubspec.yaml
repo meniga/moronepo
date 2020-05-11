@@ -1,5 +1,5 @@
 name: moronepo
-version: 0.1.2
+version: 0.1.3
 description: >
   A tool to simplify development in a dart multi-package repository.
 homepage: https://github.com/meniga/moronepo
