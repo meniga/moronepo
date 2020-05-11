@@ -114,7 +114,7 @@ void main() {
         processStarter.start("git", ["fetch"], flutterSdkPath),
         processStarter.start("git", ["tag", "-l", "*.*.*"], flutterSdkPath),
         processStarter.start("git", ["checkout", "1.10.1"], flutterSdkPath),
-        processStarter.start("flutter", ["doctor"], any),
+        processStarter.start("flutter", ["precache"], any),
       ]);
     });
 

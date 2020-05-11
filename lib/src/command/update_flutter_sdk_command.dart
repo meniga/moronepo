@@ -52,7 +52,7 @@ class UpdateFlutterSdkCommand extends MoronepoCommand<Null> {
         final forcedTag = _determineBestVersion(versionConstraint, availableTags);
         print("Enforcing version ${forcedTag.version} for ${rootProject.name} project");
         await _enforceVersion(forcedTag, flutterSdkPath);
-        await _runFlutterDoctor(flutterSdkPath);
+        await _runFlutterPreCache(flutterSdkPath);
       }
     }
   }
@@ -94,7 +94,7 @@ class UpdateFlutterSdkCommand extends MoronepoCommand<Null> {
     );
   }
 
-  void _runFlutterDoctor(String path) async {
-    await _processStarter.start("flutter", ["doctor"], path);
+  void _runFlutterPreCache(String path) async {
+    await _processStarter.start("flutter", ["precache"], path);
   }
 }
