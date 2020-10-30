@@ -30,10 +30,12 @@ jobs:
 #         - export PATH=$FLUTTER_ROOT/bin:$FLUTTER_ROOT/bin/cache/dart-sdk/bin:$PATH
 
     - name: Script
-      run: |
-        pub get
-        dartanalyzer .
-        pub run test --coverage
+      uses: subosito/flutter-action@v1
+      with: 
+        flutter-version: '1.12.4'
+    - run: |
+        flutter analyze
+        flutter test --coverage
         dartdoc --no-generate-docs
         pub publish --dry-run
           
