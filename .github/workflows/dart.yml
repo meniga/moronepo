@@ -10,12 +10,9 @@ jobs:
   build:
   
     runs-on: ubuntu-latest
-    name: Dart ${{ matrix.dart }}
-    strategy:
-      matrix:
-        dart: [stable, dev]
+    name: Dart
     container:
-      image:  google/dart:${{ matrix.dart }}
+      image:  google/dart:stable
 
     steps:
     - uses: actions/checkout@v2
