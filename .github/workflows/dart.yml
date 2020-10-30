@@ -15,7 +15,7 @@ jobs:
      matrix:
        dart: [latest, 2.9]
     container:
-      image:  google/dart:${{ matrix.dart }}
+      image: google/dart:${{ matrix.dart }}
 
     steps:
     - uses: actions/checkout@v2
@@ -31,10 +31,10 @@ jobs:
 
     - name: Script
       run: |
-        - flutter analyze
-        - flutter test --coverage
-        - dartdoc --no-generate-docs
-        - pub publish --dry-run
+        flutter analyze
+        flutter test --coverage
+        dartdoc --no-generate-docs
+        pub publish --dry-run
           
     - name: Code Cov
       uses: codecov/codecov-action@v1
