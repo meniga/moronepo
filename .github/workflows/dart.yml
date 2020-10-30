@@ -31,8 +31,9 @@ jobs:
 
     - name: Script
       run: |
-        flutter analyze
-        flutter test --coverage
+        pub get
+        dartanalyzer .
+        pub run test --coverage
         dartdoc --no-generate-docs
         pub publish --dry-run
           
