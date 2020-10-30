@@ -1,0 +1,41 @@
+name: Dart CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+  
+    runs-on: ubuntu-latest
+    name: Dart ${{ matrix.dart }}
+    strategy:
+      matrix:
+        dart: [stable, dev]
+    container:
+      image:  google/dart:${{ matrix.dart }}
+
+    steps:
+    - uses: actions/checkout@v2
+          
+    - name: Install dependencies
+      run: ./.travis-pub-get.sh
+      
+    - name: Install Flutter
+      run: |
+        - export FLUTTER_ROOT=$HOME/flutter
+        - git clone https://github.com/flutter/flutter.git -b stable $FLUTTER_ROOT
+        - export PATH=$FLUTTER_ROOT/bin:$FLUTTER_ROOT/bin/cache/dart-sdk/bin:$PATH
+
+    - name: Script
+      run: |
+        - flutter analyze
+        - flutter test --coverage
+        - dartdoc --no-generate-docs
+        - pub publish --dry-run
+          
+    - name: Code Cov
+      uses: codecov/codecov-action@v1
+          
