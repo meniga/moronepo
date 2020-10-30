@@ -32,7 +32,7 @@ jobs:
     - name: Script
       uses: subosito/flutter-action@v1
       with: 
-        flutter-version: '1.12.4'
+        flutter-version: '1.20.2'
     - run: |
         flutter analyze
         flutter test --coverage
