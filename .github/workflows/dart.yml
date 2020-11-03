@@ -29,12 +29,6 @@ jobs:
     
     - name: Install dependencies
       run: ./.travis-pub-get.sh
-   
-    - name: Set Flutter Root
-      run: |
-        - export FLUTTER_ROOT= env.FLUTTER_HOME
-        - git clone https://github.com/flutter/flutter.git -b stable $FLUTTER_ROOT
-        - export PATH=$FLUTTER_ROOT/bin:$FLUTTER_ROOT/bin/cache/dart-sdk/bin:$PATH
     
     - name: Flutter Analyze
       run: flutter analyze
