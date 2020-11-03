@@ -33,6 +33,12 @@ jobs:
     - name: Flutter Test
       run: flutter test --coverage
     
+    - name: Setup Flutter Root
+      run: |
+        - export FLUTTER_ROOT=/opt/hostedtoolcache/flutter
+        - git clone https://github.com/flutter/flutter.git -b stable $FLUTTER_ROOT
+        - export PATH=$FLUTTER_ROOT/bin:$FLUTTER_ROOT/bin/cache/dart-sdk/bin:$PATH
+    
     - name: Generate Dartdoc 
       run: dartdoc --no-generate-docs
 
