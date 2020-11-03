@@ -19,26 +19,25 @@ jobs:
 #       image: google/dart:${{ matrix.dart }}
 
     steps:
+    - name: Checkout
     - uses: actions/checkout@v2
-          
-#     - name: Install dependencies
-#       run: ./.travis-pub-get.sh
-      
-#     - name: Install Flutter
-#       run: |
-#         - export FLUTTER_ROOT= home/flutter
-#         - git clone https://github.com/flutter/flutter.git -b stable $FLUTTER_ROOT
-#         - export PATH=$FLUTTER_ROOT/bin:$FLUTTER_ROOT/bin/cache/dart-sdk/bin:$PATH
 
-    - name: Script
+    - name: Setup Flutter
       uses: subosito/flutter-action@v1
       with: 
         flutter-version: '1.20.2'
-    - run: |
-        flutter analyze
-        flutter test --coverage
-        dartdoc --no-generate-docs
-        pub publish --dry-run
+    
+    - name: Flutter Analyze
+    - run: flutter analyze
+    
+    - name: Flutter Test
+    - run: flutter test --coverage
+    
+#     - name: Dartdoc 
+#     - run:  dartdoc --no-generate-docs
+    
+    - name: Publish Pub
+    - run: pub publish --dry-run
           
     - name: Code Cov
       uses: codecov/codecov-action@v1
