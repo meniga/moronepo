@@ -27,17 +27,26 @@ jobs:
       with: 
         flutter-version: '1.20.2'
     
+    - name: Install dependencies
+      run: ./.travis-pub-get.sh
+   
+    - name: Set Flutter Root
+      run: |
+        - export FLUTTER_ROOT= env.FLUTTER_HOME
+        - git clone https://github.com/flutter/flutter.git -b stable $FLUTTER_ROOT
+        - export PATH=$FLUTTER_ROOT/bin:$FLUTTER_ROOT/bin/cache/dart-sdk/bin:$PATH
+    
     - name: Flutter Analyze
       run: flutter analyze
     
     - name: Flutter Test
       run: flutter test --coverage
     
-    - name: Dartdoc 
+    - name: Generate Dartdoc 
       run: |
-       - export FLUTTER_ROOT= env.FLUTTER_HOME
-       - $FLUTTER_ROOT/bin/cache/dart-sdk/bin/dartdoc --no-generate-docs
-    
+        - flutter pub global activate dartdoc
+        - dartdoc --no-generate-docs
+
     - name: Publish Pub
       run: pub publish --dry-run
           
