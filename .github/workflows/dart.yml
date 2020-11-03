@@ -33,8 +33,11 @@ jobs:
     - name: Flutter Test
       run: flutter test --coverage
     
-#     - name: Dartdoc 
-#       run:  dartdoc --no-generate-docs
+    - name: Dartdoc 
+      run: |
+        - export FLUTTER_ROOT = env.FLUTTER_HOME
+        - export PATH=$FLUTTER_ROOT/bin:$FLUTTER_ROOT/bin/cache/dart-sdk/bin:$PATH
+        - dartdoc --no-generate-docs
     
     - name: Publish Pub
       run: pub publish --dry-run
