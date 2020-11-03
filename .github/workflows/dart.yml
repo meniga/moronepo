@@ -35,8 +35,8 @@ jobs:
     
     - name: Dartdoc 
       run: |
-       - pub global activate dartdoc
-       - dartdoc --no-generate-docs
+       - export FLUTTER_ROOT= env.FLUTTER_HOME
+       - $FLUTTER_ROOT/bin/cache/dart-sdk/bin/dartdoc --no-generate-docs
     
     - name: Publish Pub
       run: pub publish --dry-run
