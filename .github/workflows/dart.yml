@@ -25,10 +25,7 @@ jobs:
     - name: Setup Flutter
       uses: subosito/flutter-action@v1
       with: 
-        flutter-version: '1.20.2'
-    
-    - name: Install dependencies
-      run: ./.travis-pub-get.sh
+        flutter-version: '1.20.2'    
     
     - name: Flutter Analyze
       run: flutter analyze
@@ -37,9 +34,7 @@ jobs:
       run: flutter test --coverage
     
     - name: Generate Dartdoc 
-      run: |
-        - flutter pub global activate dartdoc
-        - dartdoc --no-generate-docs
+      run: dartdoc --no-generate-docs
 
     - name: Publish Pub
       run: pub publish --dry-run
