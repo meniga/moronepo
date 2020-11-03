@@ -28,16 +28,16 @@ jobs:
         flutter-version: '1.20.2'
     
     - name: Flutter Analyze
-    - run: flutter analyze
+      run: flutter analyze
     
     - name: Flutter Test
-    - run: flutter test --coverage
+      run: flutter test --coverage
     
 #     - name: Dartdoc 
-#     - run:  dartdoc --no-generate-docs
+#       run:  dartdoc --no-generate-docs
     
     - name: Publish Pub
-    - run: pub publish --dry-run
+      run: pub publish --dry-run
           
     - name: Code Cov
       uses: codecov/codecov-action@v1
