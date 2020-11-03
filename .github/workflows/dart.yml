@@ -35,7 +35,7 @@ jobs:
     
     - name: Dartdoc 
       run: |
-       - flutter pub global activate dartdoc
+       - pub global activate dartdoc
        - dartdoc --no-generate-docs
     
     - name: Publish Pub
