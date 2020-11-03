@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/bash
 
 rootDir=$(cd $(dirname $0); pwd -P)
 scriptParameters=$@
