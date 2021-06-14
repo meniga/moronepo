@@ -4,21 +4,21 @@ import 'package:moronepo/moronepo.dart';
 
 /// Represents filters for the [ProjectFinder]
 class ProjectFilters extends Equatable {
-  final String name;
-  final List<String> dependencies;
-  final bool isFlutter;
-  final bool hasTests;
-  final bool isRoot;
+  final String? name;
+  final List<String>? dependencies;
+  final bool? isFlutter;
+  final bool? hasTests;
+  final bool? isRoot;
 
   const ProjectFilters({
-    this.name,
-    List<String> dependencies,
-    this.isFlutter,
-    this.hasTests,
-    this.isRoot,
-  }) : this.dependencies = dependencies ?? const [];
+     this.name,
+     List<String>? dependencies = const [""],
+     this.isFlutter,
+     this.hasTests,
+     this.isRoot,
+  }) : this.dependencies = dependencies;
 
-  factory ProjectFilters.from(ArgResults results) {
+  factory ProjectFilters.from(ArgResults? results) {
     List<String> filter = fromResults(results, "filter");
     return ProjectFilters(
       name: fromResults(results, "project"),
@@ -30,7 +30,7 @@ class ProjectFilters extends Equatable {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         name,
         dependencies,
         isFlutter,
@@ -42,9 +42,9 @@ class ProjectFilters extends Equatable {
   bool get stringify => true;
 }
 
-R fromResults<R>(ArgResults results, String name) => results[name] as R;
+R fromResults<R>(ArgResults? results, String name) => results?[name] as R;
 
-bool _extractFlag(List<String> filter, String flag) {
+bool? _extractFlag(List<String> filter, String flag) {
   if (filter.contains(flag)) {
     return true;
   } else if (filter.contains("!$flag")) {

@@ -15,7 +15,7 @@ class MoronepoResults {
   final ProjectFilters projectFilters;
 
   MoronepoResults({
-    this.workingDirectory,
-    this.projectFilters,
+    required this.workingDirectory,
+    required this.projectFilters,
   });
 }

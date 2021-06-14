@@ -23,14 +23,14 @@ class UpdateFlutterSdkCommand extends MoronepoCommand<Null> {
   final FlutterFinder _flutterFinder;
 
   UpdateFlutterSdkCommand({
-    ProcessStarter processStarter,
-    FlutterFinder flutterFinder,
+     ProcessStarter? processStarter,
+     FlutterFinder? flutterFinder,
   })  : this._processStarter = processStarter ?? ProcessStarter(),
         this._flutterFinder = flutterFinder ?? FlutterFinder(Platform.environment["PATH"]);
 
   @override
   FutureOr<Null> run() async {
-    final rootDirectory = moronepoResults.workingDirectory ?? Directory.current.path;
+    final rootDirectory = moronepoResults.workingDirectory;
     final foundProjects = await ProjectFinder().find(
       path: rootDirectory,
       filters: ProjectFilters(isRoot: true),
@@ -59,13 +59,15 @@ class UpdateFlutterSdkCommand extends MoronepoCommand<Null> {
 
   Future<Version> _fetchFlutterVersion(String path) async {
     final processOutput = await _processStarter.start("flutter", ["--version"], path);
+
+    //TODO: delete force unwrap
     final version =
-        RegExp(r"Flutter ([^\.]+\.[^\.]+\.[^\s]*)").firstMatch(processOutput.output).group(1);
-    return Version.parse(version);
+        RegExp(r"Flutter ([^\.]+\.[^\.]+\.[^\s]*)").firstMatch(processOutput.output)!.group(1);
+    return Version.parse(version!);
   }
 
-  Future<void> _fetchFlutterSdk(String flutterSdkPath) async {
-    return _processStarter.start("git", ["fetch"], flutterSdkPath);
+  Future<ProcessOutput> _fetchFlutterSdk(String flutterSdkPath) async {
+    return await _processStarter.start("git", ["fetch"], flutterSdkPath);
   }
 
   Future<List<Tag>> _fetchAvailableFlutterVersions(String path) async {
@@ -73,7 +75,7 @@ class UpdateFlutterSdkCommand extends MoronepoCommand<Null> {
     final versionStrings = processOutput.output.split("\n");
     return versionStrings
         .where((it) => it.isNotEmpty)
-        .map((it) => Tag(it))
+        .map((it) => Tag(value: it))
         .toList();
   }
 
@@ -94,7 +96,7 @@ class UpdateFlutterSdkCommand extends MoronepoCommand<Null> {
     );
   }
 
-  void _runFlutterPreCache(String path) async {
-    await _processStarter.start("flutter", ["precache"], path);
+  Future<ProcessOutput> _runFlutterPreCache(String path) async {
+   return await _processStarter.start("flutter", ["precache"], path);
   }
 }

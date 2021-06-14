@@ -20,13 +20,14 @@ class RunCommand extends MoronepoCommand<Null> {
     final projectFilters = moronepoResults.projectFilters;
     final projectName = projectFilters.name;
     final isProjectSpecified = projectName?.isNotEmpty ?? false;
-    final rootDirectory = moronepoResults.workingDirectory ?? Directory.current.path;
+    //TODO ?? Directory.current.path
+    final rootDirectory = moronepoResults.workingDirectory;
     Iterable<Project> projects = await _findProjects(rootDirectory, projectFilters);
     if (isProjectSpecified) {
       projects = projects.where((project) => project.name == projectName);
     }
-    final command = argResults.rest[0];
-    final arguments = argResults.rest.skip(1);
+    final command = argResults?.rest[0];
+    final arguments = argResults?.rest.skip(1);
 
     if (projects.isEmpty) {
       if (isProjectSpecified) {
@@ -42,8 +43,9 @@ class RunCommand extends MoronepoCommand<Null> {
         print("Running \"${formatCommand(command, arguments)}\" for ${project.name} project");
         print("Project directory \"${project.path}\"");
         final code = await Process.start(
-          command,
-          arguments.toList(),
+          command ?? "",
+          //TODO Rethink
+          arguments!.toList(),
           workingDirectory: project.path,
           runInShell: true,
         ).then((process) async {

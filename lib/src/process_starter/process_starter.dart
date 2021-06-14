@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
-import 'package:quiver/check.dart';
 
 class ProcessStarter {
   Future<ProcessOutput> start(
@@ -19,7 +18,7 @@ class ProcessStarter {
       final stringOutput = await process.stdout.transform(utf8.decoder).join();
       _printRemovingTrailingNewLine(stringOutput);
       await stderr.addStream(process.stderr);
-      return ProcessOutput(stringOutput);
+      return ProcessOutput(output: stringOutput);
     });
   }
 
@@ -33,9 +32,7 @@ class ProcessStarter {
 class ProcessOutput extends Equatable {
   final String output;
 
-  ProcessOutput(this.output) {
-    checkNotNull(output);
-  }
+  ProcessOutput({required this.output});
 
   @override
   List<Object> get props => [output];
