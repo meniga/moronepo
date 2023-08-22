@@ -1,0 +1,50 @@
+name: Dart CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+  
+    runs-on: ubuntu-latest
+    name: Dart
+#     name: Dart ${{ matrix.dart }}
+#     strategy:
+#      matrix:
+#        dart: [latest, 2.9]
+#     container:
+#       image: google/dart:${{ matrix.dart }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v1
+      with: 
+        flutter-version: '1.20.2'    
+    
+    - name: Flutter Analyze
+      run: flutter analyze
+    
+    - name: Flutter Test
+      run: flutter test --coverage
+    
+    - name: Setup Flutter Root
+      run: |
+        - export FLUTTER_ROOT=/opt/hostedtoolcache/flutter
+        - git clone https://github.com/flutter/flutter.git -b stable $FLUTTER_ROOT
+        - export PATH=$FLUTTER_ROOT/bin:$FLUTTER_ROOT/bin/cache/dart-sdk/bin:$PATH
+    
+    - name: Generate Dartdoc 
+      run: dartdoc --no-generate-docs
+
+    - name: Publish Pub
+      run: pub publish --dry-run
+          
+    - name: Code Cov
+      uses: codecov/codecov-action@v1
+          
