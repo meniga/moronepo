@@ -1,13 +1,15 @@
+import 'dart:io';
+
 import 'package:args/command_runner.dart';
 import 'package:moronepo/src/project_finder/project_filters.dart';
 
 abstract class MoronepoCommand<T> extends Command<T> {
   MoronepoResults get moronepoResults => MoronepoResults(
-        workingDirectory: _fromGlobalResults("working-directory"),
+        workingDirectory: _fromGlobalResults<String>("working-directory") ?? Directory.current.path,
         projectFilters: ProjectFilters.from(globalResults),
       );
 
-  R _fromGlobalResults<R>(String name) => fromResults(globalResults, name);
+  R? _fromGlobalResults<R>(String name) => fromResults(globalResults, name);
 }
 
 class MoronepoResults {

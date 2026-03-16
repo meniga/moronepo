@@ -19,7 +19,7 @@ class ProjectFilters extends Equatable {
   }) : this.dependencies = dependencies;
 
   factory ProjectFilters.from(ArgResults? results) {
-    List<String> filter = fromResults(results, "filter");
+    List<String> filter = fromResults(results, "filter") ?? [];
     return ProjectFilters(
       name: fromResults(results, "project"),
       dependencies: fromResults(results, "dependencies"),
@@ -42,7 +42,11 @@ class ProjectFilters extends Equatable {
   bool get stringify => true;
 }
 
-R fromResults<R>(ArgResults? results, String name) => results?[name] as R;
+T? fromResults<T>(ArgResults? results, String name) {
+  final value = results?[name];
+  if (value == null) return null;
+  return value as T;
+}
 
 bool? _extractFlag(List<String> filter, String flag) {
   if (filter.contains(flag)) {

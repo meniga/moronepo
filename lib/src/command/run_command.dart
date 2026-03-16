@@ -27,7 +27,7 @@ class RunCommand extends MoronepoCommand<Null> {
       projects = projects.where((project) => project.name == projectName);
     }
     final command = argResults?.rest[0];
-    final arguments = argResults?.rest.skip(1);
+    final arguments = argResults?.rest.skip(1).toList() ?? [];
 
     if (projects.isEmpty) {
       if (isProjectSpecified) {
@@ -44,8 +44,7 @@ class RunCommand extends MoronepoCommand<Null> {
         print("Project directory \"${project.path}\"");
         final code = await Process.start(
           command ?? "",
-          //TODO Rethink
-          arguments!.toList(),
+          arguments,
           workingDirectory: project.path,
           runInShell: true,
         ).then((process) async {
