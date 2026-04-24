@@ -12,17 +12,18 @@ class ProjectFilters extends Equatable {
 
   const ProjectFilters({
      this.name,
-     List<String>? dependencies = const [""],
+     this.dependencies,
      this.isFlutter,
      this.hasTests,
      this.isRoot,
-  }) : this.dependencies = dependencies;
+  });
 
   factory ProjectFilters.from(ArgResults? results) {
-    List<String> filter = fromResults(results, "filter") ?? [];
+    final List<String> filter = fromResults(results, "filter") ?? [];
+    final List<String>? deps = fromResults(results, "dependencies");
     return ProjectFilters(
       name: fromResults(results, "project"),
-      dependencies: fromResults(results, "dependencies"),
+      dependencies: (deps != null && deps.isNotEmpty) ? deps : null,
       isFlutter: _extractFlag(filter, "isFlutter"),
       hasTests: _extractFlag(filter, "hasTests"),
       isRoot: _extractFlag(filter, "isRoot"),

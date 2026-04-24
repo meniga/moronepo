@@ -9,20 +9,12 @@ class FlutterFinder {
   FlutterFinder(this._environmentPath);
 
 
-  //TODO it can be optional (?) and then check null and throw exception
   String findFlutter() {
-    final pathToFlutter = _environmentPath ?? ""
-        .split(":")
-        .map((path) => File(join(path, "flutter")))
-        .firstWhere((file) => file.existsSync())
-        .parent
-        .path;
-
-    if (pathToFlutter == "") {
-      throw FlutterNotFoundException();
-    } else {
-      return pathToFlutter;
+    for (final dir in (_environmentPath ?? "").split(":")) {
+      final file = File(join(dir, "flutter"));
+      if (file.existsSync()) return file.parent.path;
     }
+    throw FlutterNotFoundException();
   }
 }
 

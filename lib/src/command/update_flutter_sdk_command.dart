@@ -60,10 +60,11 @@ class UpdateFlutterSdkCommand extends MoronepoCommand<Null> {
   Future<Version> _fetchFlutterVersion(String path) async {
     final processOutput = await _processStarter.start("flutter", ["--version"], path);
 
-    //TODO: delete force unwrap
-    final version =
-        RegExp(r"Flutter ([^\.]+\.[^\.]+\.[^\s]*)").firstMatch(processOutput.output)!.group(1);
-    return Version.parse(version!);
+    final version = RegExp(r"Flutter ([^\.]+\.[^\.]+\.[^\s]*)").firstMatch(processOutput.output)?.group(1);
+    if (version == null) {
+      throw FormatException("Could not parse Flutter version from: ${processOutput.output}");
+    }
+    return Version.parse(version);
   }
 
   Future<ProcessOutput> _fetchFlutterSdk(String flutterSdkPath) async {

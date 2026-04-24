@@ -3,7 +3,7 @@ include: package:pedantic/analysis_options.1.8.0.yaml
 analyzer:
   strong-mode:
     implicit-casts: false
-    implicit-dynamic: true
+    implicit-dynamic: false
   errors:
     # TODO https://github.com/dart-lang/sdk/issues/35831
     include_file_not_found: ignore
