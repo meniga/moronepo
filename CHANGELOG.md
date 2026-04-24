@@ -1,3 +1,9 @@
+## 1.0.0
+
+* **Breaking:** Requires Dart SDK `>=2.12.0`
+* Fix Flutter path not resolving correctly from PATH
+* Fix commands returning no projects when no dependency filter specified
+
 ## 0.1.3
 
 * Make `update-flutter-sdk` use plain `git` whenever possible
