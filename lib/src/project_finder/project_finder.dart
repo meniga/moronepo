@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:glob/glob.dart';
-import 'package:meta/meta.dart';
+import 'package:glob/list_local_fs.dart';
 import 'package:moronepo/src/project_finder/project_filters.dart';
 import 'package:path/path.dart';
 import 'package:pubspec_parse/pubspec_parse.dart';
@@ -13,7 +13,7 @@ import 'project.dart';
 class ProjectFinder {
   /// Find [Project]s in [path] using [filters]
   Future<List<Project>> find({
-    @required String path,
+    required String path,
     ProjectFilters filters = const ProjectFilters(),
   }) {
     return Glob("{**/pubspec.yaml,pubspec.yaml}")
@@ -50,7 +50,7 @@ class ProjectFinder {
     return hasTestDependency && hasTestDirectory;
   }
 
-  bool _hasDependenciesIfExpectedTo(Project project, List<String> dependencies) {
+  bool _hasDependenciesIfExpectedTo(Project project, List<String>? dependencies) {
     final allDependencies = project.dependencies.followedBy(project.devDependencies);
     return (dependencies != null && dependencies.isNotEmpty)
         ? dependencies.every((it) => allDependencies.contains(it))

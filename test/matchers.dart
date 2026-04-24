@@ -1,4 +1,3 @@
-import 'package:matcher/matcher.dart';
 import 'package:test/test.dart';
 
 Matcher hasExactlyOne(dynamic matcher) => _HasExactlyOneMatcher(wrapMatcher(matcher));
@@ -13,7 +12,7 @@ class _HasExactlyOneMatcher extends TypeMatcher<Iterable> {
       description.add("exactly one element ").addDescriptionOf(_matcher);
 
   @override
-  bool matches(Object item, Map matchState) =>
+  bool matches(dynamic item, Map matchState) =>
       super.matches(item, matchState) && _typedMatches(item as Iterable, matchState);
 
   bool _typedMatches(Iterable item, Map matchState) {
@@ -22,7 +21,7 @@ class _HasExactlyOneMatcher extends TypeMatcher<Iterable> {
 
   @override
   Description describeMismatch(
-      item, Description mismatchDescription, Map matchState, bool verbose) {
+      dynamic item, Description mismatchDescription, Map matchState, bool verbose) {
     if (item is Iterable) {
       return _describeTypedMismatch(item, mismatchDescription, matchState, verbose);
     }

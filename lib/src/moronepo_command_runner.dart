@@ -19,7 +19,7 @@ class MoronepoCommandRunner extends CommandRunner<Null> {
           UpdateFlutterSdkCommand(),
         ]);
 
-  MoronepoCommandRunner([List<Command<Null>> commands])
+  MoronepoCommandRunner([List<Command<Null>> commands = const []])
       : super(
           "moronepo",
           "A tool to simplify development in a dart multi-package repository.",
@@ -29,7 +29,7 @@ class MoronepoCommandRunner extends CommandRunner<Null> {
   }
 
   @override
-  FutureOr<Null> runCommand(ArgResults topLevelResults) {
+  Future<Null> runCommand(ArgResults topLevelResults) {
     _configureLogger();
     return super.runCommand(topLevelResults);
   }

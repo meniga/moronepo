@@ -12,12 +12,10 @@ void main() {
 
   group("find", () {
     test("should return all projects", () async {
-      // when
       final projects = await projectFinder.find(
         path: testProjectPath,
       );
 
-      // then
       expectProjectsWithNames(projects, [
         "project1",
         "project_inside_project",
@@ -31,46 +29,38 @@ void main() {
     });
 
     test("should filter by name", () async {
-      // when
       final projects = await projectFinder.find(
         path: testProjectPath,
         filters: ProjectFilters(name: "project1"),
       );
 
-      // then
       expectProjectsWithNames(projects, ["project1"]);
     });
 
     test("should filter if project contains tests", () async {
-      // when
       final projects = await projectFinder.find(
         path: testProjectPath,
         filters: ProjectFilters(hasTests: true),
       );
 
-      // then
       expectProjectsWithNames(projects, ["project_with_tests"]);
     });
 
     test("should filter root project as root", () async {
-      // when
       final projects = await projectFinder.find(
         path: testProjectPath,
         filters: ProjectFilters(isRoot: true),
       );
 
-      // then
       expect(projects, hasExactlyOne(predicate((Project it) => it.isRoot)));
     });
 
     test("should filter pure dart projects", () async {
-      // when
       final projects = await projectFinder.find(
         path: testProjectPath,
         filters: ProjectFilters(isFlutter: false),
       );
 
-      // then
       expectProjectsWithNames(projects, [
         "project1",
         "project_inside_project",
@@ -83,24 +73,20 @@ void main() {
     });
 
     test("should filter flutter projects", () async {
-      // when
       final projects = await projectFinder.find(
         path: testProjectPath,
         filters: ProjectFilters(isFlutter: true),
       );
 
-      // then
       expectProjectsWithNames(projects, ["project_with_flutter"]);
     });
 
     test("should filter projects with dependencies", () async {
-      // when
       final projects = await projectFinder.find(
         path: testProjectPath,
         filters: ProjectFilters(dependencies: ["test"]),
       );
 
-      // then
       expectProjectsWithNames(projects, [
         "project_with_tests",
         "project_without_test_directory",

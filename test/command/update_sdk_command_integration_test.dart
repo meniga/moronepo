@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:args/command_runner.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:moronepo/src/command/update_flutter_sdk_command.dart';
 import 'package:moronepo/src/flutter_finder/flutter_finder.dart';
@@ -11,14 +12,16 @@ import 'package:test/test.dart';
 
 import '../directories.dart';
 import '../trimmer.dart';
+import 'update_sdk_command_integration_test.mocks.dart';
 
+@GenerateMocks([ProcessStarter, FlutterFinder])
 void main() {
   final testDirectory =
       "${projectDirectory.path}/test_resources/command/test_project_with_version_constraint";
 
   group("update-flutter-sdk", () {
-    CommandRunner commandRunner;
-    MockProcessStarter processStarter;
+    late CommandRunner commandRunner;
+    late MockProcessStarter processStarter;
 
     setUp(() {
       processStarter = MockProcessStarter();
@@ -37,50 +40,43 @@ void main() {
     });
 
     test("should not update sdk if current version within constraints", () async {
-      // given
       final updateCommand = UpdateFlutterSdkCommand(processStarter: processStarter);
       commandRunner = MoronepoCommandRunner([updateCommand]);
       when(processStarter.start("flutter", ["--version"], any))
-          .thenAnswer((_) => Future.value(ProcessOutput("Flutter 1.10.1 • channel ...")));
+          .thenAnswer((_) => Future.value(ProcessOutput(output: "Flutter 1.10.1 • channel ...")));
 
-      // when
       await commandRunner.run([
         "--working-directory",
         testDirectory,
         "update-flutter-sdk",
       ]);
 
-      // then
       verifyInOrder([
         processStarter.start("flutter", ["--version"], any),
       ]);
     });
 
     test("should not fail if flutter command is locked", () async {
-      // given
       final updateCommand = UpdateFlutterSdkCommand(processStarter: processStarter);
       commandRunner = MoronepoCommandRunner([updateCommand]);
       when(processStarter.start("flutter", ["--version"], any))
-          .thenAnswer((_) => Future.value(ProcessOutput(trim("""
+          .thenAnswer((_) => Future.value(ProcessOutput(output: trim("""
           Waiting for another flutter command to release the startup lock...
           Flutter 1.10.1 • channel unknown • unknown source
           """))));
 
-      // when
       await commandRunner.run([
         "--working-directory",
         testDirectory,
         "update-flutter-sdk",
       ]);
 
-      // then
       verifyInOrder([
         processStarter.start("flutter", ["--version"], any),
       ]);
     });
 
     test("should fetch refs and update sdk if current version not within constraints", () async {
-      // given
       final flutterFinder = MockFlutterFinder();
       final flutterSdkPath = "/path/to/flutter";
       final updateCommand = UpdateFlutterSdkCommand(
@@ -90,25 +86,29 @@ void main() {
       when(flutterFinder.findFlutter()).thenReturn(flutterSdkPath);
       commandRunner = MoronepoCommandRunner([updateCommand]);
       when(processStarter.start("flutter", ["--version"], any))
-          .thenAnswer((_) => Future.value(ProcessOutput(trim("""
+          .thenAnswer((_) => Future.value(ProcessOutput(output: trim("""
           Downloading Dart SDK from Flutter engine ...
           Flutter 0.9.6 • channel ...
           """))));
+      when(processStarter.start("git", ["fetch"], any))
+          .thenAnswer((_) => Future.value(ProcessOutput(output: "")));
       when(processStarter.start("git", ["tag", "-l", "*.*.*"], any))
-          .thenAnswer((_) => Future.value(ProcessOutput(trim("""
+          .thenAnswer((_) => Future.value(ProcessOutput(output: trim("""
             1.10.1
             v1.10.0
             v0.9.6
             """))));
+      when(processStarter.start("git", ["checkout", "1.10.1"], any))
+          .thenAnswer((_) => Future.value(ProcessOutput(output: "")));
+      when(processStarter.start("flutter", ["precache"], any))
+          .thenAnswer((_) => Future.value(ProcessOutput(output: "")));
 
-      // when
       await commandRunner.run([
         "--working-directory",
         testDirectory,
         "update-flutter-sdk",
       ]);
 
-      // then
       verifyInOrder([
         processStarter.start("flutter", ["--version"], any),
         processStarter.start("git", ["fetch"], flutterSdkPath),
@@ -119,7 +119,6 @@ void main() {
     });
 
     test("should throw if specified tag not found", () async {
-      // given
       final flutterFinder = MockFlutterFinder();
       final flutterSdkPath = "/path/to/flutter";
       final updateCommand = UpdateFlutterSdkCommand(
@@ -129,27 +128,24 @@ void main() {
       when(flutterFinder.findFlutter()).thenReturn(flutterSdkPath);
       commandRunner = MoronepoCommandRunner([updateCommand]);
       when(processStarter.start("flutter", ["--version"], any))
-          .thenAnswer((_) => Future.value(ProcessOutput(trim("""
+          .thenAnswer((_) => Future.value(ProcessOutput(output: trim("""
           Downloading Dart SDK from Flutter engine ...
           Flutter 0.9.6 • channel ...
           """))));
+      when(processStarter.start("git", ["fetch"], any))
+          .thenAnswer((_) => Future.value(ProcessOutput(output: "")));
       when(processStarter.start("git", ["tag", "-l", "*.*.*"], any))
-          .thenAnswer((_) => Future.value(ProcessOutput(trim("""
+          .thenAnswer((_) => Future.value(ProcessOutput(output: trim("""
             v0.9.6
             """))));
 
-      // expect
       expect(
           () => commandRunner.run([
                 "--working-directory",
                 testDirectory,
                 "update-flutter-sdk",
               ]),
-          throwsA(TypeMatcher<TagNotFoundException>()));
+          throwsA(isA<TagNotFoundException>()));
     });
   });
 }
-
-class MockProcessStarter extends Mock implements ProcessStarter {}
-
-class MockFlutterFinder extends Mock implements FlutterFinder {}

@@ -5,7 +5,7 @@ import '../directories.dart';
 
 void main() {
   group("process starter", () {
-    ProcessStarter processStarter;
+    late ProcessStarter processStarter;
 
     setUp(() {
       processStarter = ProcessStarter();
@@ -14,7 +14,7 @@ void main() {
     test("should return output", () async {
       expect(
         processStarter.start("echo", ["line1\nline2"], testDirectory.path),
-        completion(equals(ProcessOutput("line1\nline2\n"))),
+        completion(equals(ProcessOutput(output: "line1\nline2\n"))),
       );
     });
 

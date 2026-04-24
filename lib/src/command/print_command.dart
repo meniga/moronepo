@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:moronepo/src/command/moronepo_command.dart';
 import 'package:moronepo/src/project_finder/project.dart';
@@ -14,7 +13,7 @@ class PrintCommand extends MoronepoCommand<Null> {
 
   @override
   FutureOr<Null> run() async {
-    final rootDirectory = moronepoResults.workingDirectory ?? Directory.current.path;
+    final rootDirectory = moronepoResults.workingDirectory;
     final projectFilters = moronepoResults.projectFilters;
     final finder = ProjectFinder();
     final projects = await finder.find(

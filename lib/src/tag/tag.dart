@@ -1,13 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:pub_semver/pub_semver.dart';
-import 'package:quiver/check.dart';
 
 class Tag extends Equatable {
   final String value;
 
-  Tag(this.value) {
-    checkNotNull(value);
-  }
+  Tag({required this.value});
 
   @override
   List<Object> get props => [value];

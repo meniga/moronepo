@@ -4,25 +4,26 @@ import 'package:moronepo/moronepo.dart';
 
 /// Represents filters for the [ProjectFinder]
 class ProjectFilters extends Equatable {
-  final String name;
-  final List<String> dependencies;
-  final bool isFlutter;
-  final bool hasTests;
-  final bool isRoot;
+  final String? name;
+  final List<String>? dependencies;
+  final bool? isFlutter;
+  final bool? hasTests;
+  final bool? isRoot;
 
   const ProjectFilters({
-    this.name,
-    List<String> dependencies,
-    this.isFlutter,
-    this.hasTests,
-    this.isRoot,
-  }) : this.dependencies = dependencies ?? const [];
+     this.name,
+     this.dependencies,
+     this.isFlutter,
+     this.hasTests,
+     this.isRoot,
+  });
 
-  factory ProjectFilters.from(ArgResults results) {
-    List<String> filter = fromResults(results, "filter");
+  factory ProjectFilters.from(ArgResults? results) {
+    final List<String> filter = fromResults(results, "filter") ?? [];
+    final List<String>? deps = fromResults(results, "dependencies");
     return ProjectFilters(
       name: fromResults(results, "project"),
-      dependencies: fromResults(results, "dependencies"),
+      dependencies: (deps != null && deps.isNotEmpty) ? deps : null,
       isFlutter: _extractFlag(filter, "isFlutter"),
       hasTests: _extractFlag(filter, "hasTests"),
       isRoot: _extractFlag(filter, "isRoot"),
@@ -30,7 +31,7 @@ class ProjectFilters extends Equatable {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         name,
         dependencies,
         isFlutter,
@@ -42,9 +43,13 @@ class ProjectFilters extends Equatable {
   bool get stringify => true;
 }
 
-R fromResults<R>(ArgResults results, String name) => results[name] as R;
+T? fromResults<T>(ArgResults? results, String name) {
+  final value = results?[name];
+  if (value == null) return null;
+  return value as T;
+}
 
-bool _extractFlag(List<String> filter, String flag) {
+bool? _extractFlag(List<String> filter, String flag) {
   if (filter.contains(flag)) {
     return true;
   } else if (filter.contains("!$flag")) {

@@ -11,7 +11,7 @@ void main() {
     }).forEach((value, expected) {
       test("should return version $expected from $value tag", () {
         // given
-        final actual = Tag(value);
+        final actual = Tag(value: value);
 
         // expect
         expect(actual.version, expected);
