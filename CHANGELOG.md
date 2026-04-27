@@ -1,3 +1,7 @@
+## 1.0.1
+
+* Fix crash when `pubspec.yaml` has no `environment` section
+
 ## 1.0.0
 
 * **Breaking:** Requires Dart SDK `>=2.12.0`
