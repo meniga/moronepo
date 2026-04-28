@@ -1,3 +1,7 @@
+## 1.0.2
+
+* Fix `run` command not passing arguments after `--` to subprocess
+
 ## 1.0.1
 
 * Fix crash when `pubspec.yaml` has no `environment` section
